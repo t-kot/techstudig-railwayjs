@@ -1,9 +1,5 @@
-define 'User', ->
-    property 'email', String, index: true
-    property 'password', String
-    property 'activated', Boolean, default: false
+User = define 'User', ->
+   property 'name', String, index: true
+   property 'password', String
+   property 'createdAt', Date, default: Date()
 
-User = describe 'User', () ->
-    property 'name', String
-    property 'password', String
-    property 'createdAt', Date

@@ -11,6 +11,7 @@
   , "jade":             "*"
   , "jade-ext":         "*"
   , "express":          "~2.x"
+  , "mongoose":         "*"
   , "railway":          ">= 0.2.6"
   , "jugglingdb":       ">= 0.1.0"
   , "coffee-script":    ">= 1.1.1"
