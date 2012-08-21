@@ -1,1 +1,10 @@
-hoge
+- form_tag({action: path_to.sessions(), method:'POST'}, function (form) {
+  .input
+    label User Name
+    input(type="text")
+  .input
+    label Password
+    input(type="password")
+  .actions
+    input(type="submit")
+- });
