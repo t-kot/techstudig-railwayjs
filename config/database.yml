@@ -1,0 +1,5 @@
+development:
+  driver: "mongodb://localhost/techstudig"
+
+test:
+  driver: "memory"
