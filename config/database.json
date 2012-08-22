@@ -5,4 +5,8 @@
 , "test":
   { "driver":   "memory"
   }
+, "procuction":
+  { "driver":   "mongoose"
+    ,"url":     "mongodb://heroku:38b977b2df5b5c8bd81f6758be86767a@alex.mongohq.com:10040/app6895471"
+  }
 }
