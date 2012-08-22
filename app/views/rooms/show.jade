@@ -1,5 +1,14 @@
 .page-header
   h1 Details of room
+  .message_area
+    #connectId
+    #type
+    br
+    input(type='text', id='message', value='')
+    input(type='button', value='Submit Message', onclick="sendMsg()")
+    input(type='button', value='Disconnect', onclick="disConnect()")
+
+    #receiveMsg
 
 div(about=path_to.room(room))
   .field(property='userId')= room.userId
