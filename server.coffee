@@ -9,9 +9,10 @@ if not module.parent
 
 app.io = require('socket.io').listen(app)
 
-app.io.configure ->
-  #app.io.set 'transports', ["xhr-polling"]
-  #app.io.set 'polling duration',10
+app.configure 'production',->
+  app.io.configure ->
+    app.io.set 'transports', ["xhr-polling"]
+    app.io.set 'polling duration',10
 
 app.io.sockets.on 'connection', (socket)->
   console.log "connection!"
