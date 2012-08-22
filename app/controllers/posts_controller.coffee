@@ -30,7 +30,8 @@ action 'create', ->
 action 'index', ->
     Post.all (err, posts) =>
         @posts = posts
-        @title = 'Postss index'
+        @title = 'Posts index'
+        console.log(@current_user)
         render()
 
 action 'show', ->

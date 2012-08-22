@@ -10,6 +10,17 @@ html
       .navbar-inner
         .container
           a.brand(href="/") TechStuDIG
+          .nav-collapse.collapse
+            ul.nav
+              - if (current_user) {
+                li
+                  != link_to("Posts",path_to.posts() )
+                li
+                  != link_to("Logout",'/logout')
+              -}else {
+                li
+                  != link_to("Login",path_to.new_session())
+              - }
     .container
       - var flash = request.flash('info').pop(); if (flash) {
         .alert.alert-success

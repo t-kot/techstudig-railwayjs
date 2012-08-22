@@ -15,12 +15,19 @@ action 'create', ->
         flash 'error', 'You might mistype!'
         redirect path_to.new_session()
       else
-        response.cookie 'techstudig_user_id',users[0].id
-        users[0]
+        #response.cookie 'techstudig_user_id',users[0].id
+        response.cookie 'user_id',users[0].id
+        #response.cookie 'current_user',users[0]
+        #users[0]
         flash 'info', 'Successfully login!'
         redirect path_to.user(users[0])
 
-action 'destroy', ->
-  response.cookie 'techstudig_user_id',''
+
+#caution
+#HTTPメソッドdeleteだとJSの関係でcookieの更新はできない
+#GET /logout
+action 'logout', ->
+  res.clearCookie('user_id')
   flash 'info', 'Successfully logout!'
+  @title = 'SUCCESS'
   redirect path_to.root

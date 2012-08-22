@@ -1,8 +1,9 @@
 exports.routes = (map)->
   map.root 'home#index'
+  map.get('logout','sessions#logout')
   map.resources 'posts'
   map.resources 'users'
-  map.resources 'sessions', {only: ['new','create','destroy']}
+  map.resources 'sessions', {only: ['new','create']}
   # Generic routes. Add all your routes below this line
   # feel free to remove generic routes
   map.all ':controller/:action'
