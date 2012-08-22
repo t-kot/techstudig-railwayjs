@@ -1,0 +1,29 @@
+.page-header
+  h1 Index of rooms
+
+.row
+  .span12
+    - if (rooms.length > 0) {
+      table.table.table-striped
+        thead
+          tr
+            th Title
+            th Actions
+        tbody
+          - rooms.forEach(function (room){
+            tr
+              td
+                strong
+                  != link_to(room.title, path_to.room(room))
+              td
+                != link_to('<i class="icon-edit"></i>Edit', path_to.edit_room(room), {class: 'btn btn-mini'})
+                != link_to('<i class="icon-remove icon-white"></i>Delete', path_to.room(room), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'})
+          - })
+    -} else {
+      p.alert.alert-block.alert-info
+        strong No users were found.
+    - }
+hr
+
+.well
+  != link_to('New room', path_to.new_room(), {class: 'btn'})

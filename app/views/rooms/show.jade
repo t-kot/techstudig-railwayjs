@@ -1,0 +1,12 @@
+.page-header
+  h1 Details of room
+
+div(about=path_to.room(room))
+  .field(property='userId')= room.userId
+  .field(property='createdAt')= room.createdAt
+
+.actions
+  != link_to('Edit', path_to.edit_room(room), {class: 'btn primary'}) + ' '
+  != link_to('Delete', path_to.room(room), {class: 'btn danger', method: 'delete', remote: true, jsonp: '(function (u) { location.href = u; })'})
+  span= ' or '
+  != link_to('Back to index', path_to.rooms())

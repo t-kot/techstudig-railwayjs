@@ -1,4 +1,5 @@
 exports.routes = (map)->
+  map.resources 'rooms'
   map.root 'home#index'
   map.get('logout','sessions#logout')
   map.resources 'posts'
