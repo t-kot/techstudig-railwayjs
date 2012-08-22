@@ -12,13 +12,13 @@ html
           a.brand(href="/") TechStuDIG
     .container
       - var flash = request.flash('info').pop(); if (flash) {
-        .alert.alert-message.info
+        .alert.alert-success
           a.close(data-dismiss="alert") x
           = flash
       - }
 
       - flash = request.flash('error').pop(); if (flash) {
-        .alert.alert-message.error
+        .alert.alert-error
           a.close(data-dismiss="alert") x
           = flash
       - }

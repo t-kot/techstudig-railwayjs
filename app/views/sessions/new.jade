@@ -1,10 +1,10 @@
 - form_tag({action: path_to.sessions(), method:'POST'}, function (form) {
   .input
     label User Name
-    input(type="text")
+    input(type="text",name="user_name")
   .input
     label Password
-    input(type="password")
+    input(type="password",name="password")
   .actions
     input(type="submit")
 - });

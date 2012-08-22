@@ -3,3 +3,7 @@ User = define 'User', ->
    property 'password', String
    property 'createdAt', Date, default: Date()
 
+Post = describe 'Post', () ->
+    property 'userId', String
+    property 'body', String
+    property 'createdAt', Date, default: Date()
