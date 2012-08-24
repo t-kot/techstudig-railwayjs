@@ -1,4 +1,5 @@
 load 'application'
+before(use('requireAuthenticate'))
 
 before 'load room', ->
     Room.find params.id, (err, room) =>

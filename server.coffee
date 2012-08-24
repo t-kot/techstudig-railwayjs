@@ -20,7 +20,9 @@ app.io.sockets.on 'connection', (socket)->
   #Receive the message
   socket.on "message", (msg)->
     console.log msg
-    app.io.sockets.emit 'message',msg
+    User.find msg.user_id,(err,user)->
+      msg.sender_image = user.image
+      app.io.sockets.emit 'message',msg
 
   socket.on "disconnect", ->
     console.log "Disconnect"
