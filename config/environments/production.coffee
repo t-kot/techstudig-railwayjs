@@ -1,10 +1,10 @@
 app.configure 'production', ->
-    app.enable 'view cache'
-    app.enable 'model cache'
-    app.enable 'eval cache'
-    app.enable 'merge javascripts'
-    app.enable 'merge stylesheets'
+    app.disable 'view cache'
+    app.disable 'model cache'
+    app.disable 'eval cache'
+    app.disable 'merge javascripts'
+    app.disable 'merge stylesheets'
     app.disable 'assets timestamps'
     app.use require('express').errorHandler()
-    app.enable 'quiet'
+    app.disable 'quiet'
 
