@@ -14,12 +14,16 @@ html
             ul.nav
               - if (current_user) {
                 li
-                  != link_to("Posts",path_to.posts() )
+                  != link_to("Chat Rooms",path_to.rooms() )
+                li
+                  != link_to("Create Chat Room",path_to.new_room())
                 li
                   != link_to("Logout",'/logout')
               -}else {
                 li
                   != link_to("Login",path_to.new_session())
+                li
+                  != link_to("Sign Up",path_to.new_user())
               - }
     .container
       - var flash = request.flash('info').pop(); if (flash) {
