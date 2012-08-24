@@ -1,5 +1,5 @@
 var host = location.href;
-var socket = io.connect("127.0.0.1:3000");
+var socket = io.connect("/");
 
 //At connecting server
 socket.on('connect', function(msg){
