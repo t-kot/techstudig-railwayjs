@@ -1,4 +1,5 @@
 load 'application'
+before use('checkValidateUser'), {only: ['edit','update','destroy'] }
 
 before 'load user', ->
   User.find params.id, (err, user) =>

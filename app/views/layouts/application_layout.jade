@@ -18,6 +18,8 @@ html
                 li
                   != link_to("Create Chat Room",path_to.new_room())
                 li
+                  != link_to("Edit User",path_to.edit_user(current_user))
+                li
                   != link_to("Logout",'/logout')
               -}else {
                 li
