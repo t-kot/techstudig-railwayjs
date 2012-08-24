@@ -45,6 +45,7 @@ action 'edit', ->
   render()
 
 action 'update', ->
+  uploadPhoto()
   @user.updateAttributes body.User, (err) =>
     if !err
       flash 'info', 'User updated'
@@ -61,3 +62,11 @@ action 'destroy', ->
     else
       flash 'info', 'User successfully removed'
       send "'" + path_to.users() + "'"
+
+uploadPhoto= ->
+  if(req.files)
+    path = req.files.User.image.path
+    split_path = path.split("/")
+    new_path = "/"+split_path[1]+"/"+split_path[2]
+    body.User['image'] = new_path
+    console.log new_path

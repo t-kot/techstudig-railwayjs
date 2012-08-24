@@ -6,3 +6,8 @@
   != form.label("password")
   .input
     != form.input("password")
+.clearfix
+  != form.label("image")
+  .input
+    //input(type='file',name='User[image]')
+    != form.input('image', {type: 'file'})
