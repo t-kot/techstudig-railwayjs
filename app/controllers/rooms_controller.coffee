@@ -7,7 +7,18 @@ before 'load room', ->
             redirect path_to.rooms()
         else
             @room = room
-            next()
+            @posts_users = []
+            room.posts (err,posts)=>
+              @posts = posts
+              posts.forEach (post)=>
+                User.find post.user(), (err,user) =>
+                  if err
+                    redirect path_to.rooms()
+                  else
+                    console.log post.body
+                    @posts_users.push {user_name:user.name, post_body:post.body}
+                  console.log @posts_users
+                  next()
 , only: ['show', 'edit', 'update', 'destroy']
 
 action 'new', ->

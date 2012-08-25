@@ -23,6 +23,12 @@ app.io.sockets.on 'connection', (socket)->
     User.find msg.user_id,(err,user)->
       msg.sender_image = user.image
       app.io.sockets.emit 'message',msg
+      Room.find msg.room_id,(err,room)->
+        if err
+          console.log err
+        else
+          room.posts.create {userId: user.id,body: msg.message_text},(err)->
+            console.log err if err
 
   socket.on "disconnect", ->
     console.log "Disconnect"

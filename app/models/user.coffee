@@ -1,3 +1,6 @@
+#relation ship
+User.hasMany Post, {as: 'posts', foreignKey: 'userId'}
+
 User.authenticate =(name,password,callback)->
   User.all {where: {name: name, password: password} },callback
 

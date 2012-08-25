@@ -40,7 +40,8 @@ socket.on('message', function(msg){
 function sendMsg(){
   var msg = $('#message').val();
   var user = $.cookie("user_id");
-  socket.emit('message', {message_text:msg ,user_id:user});
+  var room_id = location.pathname.split("/")[2]
+  socket.emit('message', {message_text:msg ,user_id:user, room_id:room_id});
 }
 
 //At disconnecting 
