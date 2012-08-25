@@ -8,16 +8,25 @@ before 'load room', ->
         else
             @room = room
             @posts_users = []
-            room.posts (err,posts)=>
-              @posts = posts
-              posts.forEach (post)=>
-                User.find post.user(), (err,user) =>
-                  if err
-                    redirect path_to.rooms()
-                  else
-                    console.log post.body
-                    @posts_users.push {user_name:user.name, post_body:post.body}
-                  console.log @posts_users
+            console.log "++++++here!!!+"
+            room.posts (error,posts)=>
+              if error
+                redirect path_ro.root()
+                next()
+              else
+                @posts = posts
+                if @posts.length isnt 0
+                  @posts.forEach (post)=>
+                    console.log "here was not 2"
+                    User.find post.user(), (err,user) =>
+                      if err
+                        redirect path_to.rooms()
+                        next()
+                      else
+                        console.log post.body
+                        @posts_users.push {user_name:user.name, post_body:post.body}
+                      next()
+                else
                   next()
 , only: ['show', 'edit', 'update', 'destroy']
 
