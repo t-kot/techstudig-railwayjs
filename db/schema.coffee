@@ -8,9 +8,9 @@ Post = describe 'Post', () ->
     property 'userId', String
     property 'roomId', String
     property 'body', String
-    property 'createdAt', Date, default: Date()
+    property 'createdAt', Number, default: Date.now()
 Room = describe 'Room', () ->
     property 'userId', Number
     property 'title', String
-    property 'createdAt', Date, default: Date()
+    property 'createdAt', Number, default: Date.now()
 

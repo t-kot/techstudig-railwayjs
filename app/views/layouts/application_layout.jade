@@ -2,6 +2,7 @@
 html
   head
     title= title
+    meta(name='viewport',content='width=device-width, initial-scale=1.0')
     != stylesheet_link_tag('bootstrap', 'style', 'bootstrap-responsive')
     != javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', 'bootstrap', 'rails', 'jquery.cookie','application')
     != csrf_meta_tag()
@@ -11,22 +12,33 @@ html
         .container
           a.brand(href="/") TechStuDIG
           .nav-collapse.collapse
-            ul.nav
-              - if (current_user) {
-                li
-                  != link_to("Chat Rooms",path_to.rooms() )
-                li
-                  != link_to("Create Chat Room",path_to.new_room())
-                li
-                  != link_to("Edit User",path_to.edit_user(current_user))
-                li
-                  != link_to("Logout",'/logout')
-              -}else {
-                li
-                  != link_to("Login",path_to.new_session())
-                li
-                  != link_to("Sign Up",path_to.new_user())
-              - }
+
+          ul.nav
+            - if (current_user) {
+              li.dropdown
+                a.dropdown-toggle(data-toggle='dropdown') Chat
+                  b.caret
+                ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                  li
+                    != link_to("Create Chat Room",path_to.new_room())
+                  li
+                    != link_to("Chat Rooms", path_to.rooms())
+              li.dropdown
+                a.dropdown-toggle(data-toggle='dropdown') User
+                  b.caret
+                ul.dropdown-menu(role='menu',aria-labelledby='drop2')
+                  li
+                    != link_to("Edit User",path_to.edit_user(current_user))
+                  li
+                    != link_to(current_user.name,path_to.user(current_user))
+              li
+                != link_to("Logout",'/logout')
+            -}else {
+              li
+                != link_to("Login",path_to.new_session())
+              li
+                != link_to("Sign Up",path_to.new_user())
+            - }
     .container
       - var flash = request.flash('info').pop(); if (flash) {
         .alert.alert-success

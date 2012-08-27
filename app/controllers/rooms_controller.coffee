@@ -8,22 +8,21 @@ before 'load room', ->
         else
             @room = room
             @posts_users = []
-            console.log "++++++here!!!+"
-            room.posts (error,posts)=>
+            Post.all {where: {roomId:room.id},order:'createdAt'}, (error,posts)=>
               if error
                 redirect path_ro.root()
                 next()
               else
                 @posts = posts
+                console.log @posts
                 if @posts.length isnt 0
                   @posts.forEach (post)=>
-                    console.log "here was not 2"
+                    console.log post.createdAt
                     User.find post.user(), (err,user) =>
                       if err
                         redirect path_to.rooms()
                         next()
                       else
-                        console.log post.body
                         @posts_users.push {user_name:user.name, post_body:post.body}
                       next()
                 else
