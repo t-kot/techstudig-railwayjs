@@ -431,6 +431,7 @@
                 if(this._container.item(i).collisionBullet(this._bulletContainer)){
                     this._container.remove(i);
                     GetGameParam.prototype.SCORE += 10;
+                    if (i%5==0) TRANSCEIVER.sendScore(GetGameParam.prototype.SCORE);
                 } else {
                     i += 1;
                 } 

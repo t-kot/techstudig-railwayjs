@@ -19,12 +19,17 @@ app.io.sockets.on 'connection', (socket)->
 
   #Receive the message
   socket.on "message", (msg)->
-    console.log msg
     User.find msg.user_id,(err,user)->
       msg.sender_image = user.image
       app.io.sockets.emit 'message',msg
-  socket.on "news", (msg)->
-    console.log msg
+  socket.on "score_news_send", (msg)->
+    User.find msg.user_id, (err,user)->
+      if err
+        console.log
+      else
+        score = {}
+        [score.user,score.point]=[user.name,msg.score]
+        app.io.sockets.emit 'score_news_push',score
 
   socket.on "disconnect", ->
     console.log "Disconnect"
