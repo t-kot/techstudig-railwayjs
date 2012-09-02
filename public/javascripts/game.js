@@ -1,30 +1,16 @@
-/**
- * @filename : game.js
- * @brief    : game main process
- * @author   : takumi hatta
- */
-
 (function () {
     // game system property
     var system;
-    
     var GameApp = arc.Class.create(arc.Game, {
-        /**
-         * init game data
-         * @param params game system parameter
-         */
         initialize: function (params) {
             // register mouse event 
             this.registerMouseEvents();
-            
             // register audio event
             this.registerAudioEvents();
-            
             // set scene data
             this._scene_manager = new SceneManager(system, this);
             this._scene_manager.initialize();
         },
-            
         /**
          * update game data
          */
@@ -32,7 +18,6 @@
             // update scene 
             this._scene_manager.update();
         },
-        
         /**
          * register mouse events
          */
@@ -41,24 +26,22 @@
             GetMouse.prototype.x = 120;
             GetMouse.prototype.y = 400;
             GetMouse.prototype.isPush = false;
-            
+
             // register update mouse position function
-            var cvs = system.getCanvas();
-            cvs.addEventListener("mousemove", function (e) {
-                var rect = e.target.getBoundingClientRect();
-                GetMouse.prototype.x = (e.clientX - rect.left) - 10.0;
-                GetMouse.prototype.y = (e.clientY - rect.top) - 10.0;
+            this.addEventListener(arc.Event.TOUCH_MOVE, function (e) {
+                GetMouse.prototype.x = e.x - 10.0;
+                GetMouse.prototype.y = e.y - 10.0;
             }, false);
-            
+
             // register mouse push function
-            cvs.addEventListener("mousedown", function(e) {
+            this.addEventListener(arc.Event.TOUCH_START, function(e) {
                 GetMouse.prototype.isPush = true;
             }, false);
-            cvs.addEventListener("mouseup", function(e) {
+            this.addEventListener(arc.Event.TOUCH_END, function(e) {
                 GetMouse.prototype.isPush = false;
             }, false);
         },
-            
+
         /**
          * register audio events
          */
@@ -67,7 +50,7 @@
             GetAudio.prototype.isLoopPlay = false;
         }
     });
-    
+
     /**
      * game entry point
      */
@@ -135,10 +118,6 @@
         this._length = 0
     }
     List.prototype = {
-        /**
-         * add elements
-         * @param data something
-         */
         add: function (data) {
             var node = { data: data, next: null },
                 current;
@@ -153,10 +132,6 @@
             }
             this._length += 1;
         },
-        /**
-         * get data
-         * @param index data's index
-         */
         item: function (index) {
             if(index > -1 && index < this._length) {
                 var current = this._head,
@@ -169,10 +144,6 @@
                 return null;
             }
         },
-        /**
-         * remove data
-         * @param index data's index
-         */
         remove: function (index) {
             if(index > -1 && index < this._length) {
                 var current = this._head,
@@ -228,11 +199,6 @@
         this._canvas = system.getCanvas(),
         // game handler
         this._game = null,
-        /** 
-         * object initialize process
-         * @param G game object
-         * @param V start position
-         */
         this.initialize = function ( G, V ) {
             this._game = G;
             this._position.x = V.x;
@@ -243,9 +209,6 @@
             this._velocity = rand(2.0, 10.0);
             this._angle = rand(0.0, 100.0);
         },
-        /**
-         * object update process
-         */
         this.update = function () {
             // default update is player's update
             this._position.x = GetMouse.prototype.x;
@@ -253,11 +216,6 @@
             this._texture.setX(this._position.x);
             this._texture.setY(this._position.y);
         },
-        /**
-         * collision detection
-         * @param other target circle data
-         * @return if you collided return true, else false
-         */
         this.collisionDetection = function (other) {
             if(collisionCircle(this._position, other._position)) {
                 this.remove();
@@ -266,11 +224,6 @@
             }
             return false;
         },
-        /**
-         * collision detection bullet vs enemy
-         * @param container other container
-         * @return if you collided, return true else false
-         */
         this.collisionBullet = function (container) {
             for(var i = 0; i < container.getLength();) {
                 if(collisionCircle(this._position, container.item(i).getPosition())) {
@@ -284,36 +237,21 @@
             } 
             return false;
         },
-        /**
-         * remove data
-         */
         this.remove = function () {
             this._isDead = true;
             this._game.removeChild(this._texture);
         }
     }
 
-    /**
-     * set scale
-     * @param v vector data
-     */
     ObjectBase.prototype.setScale = function (v) {
         this._texture.setScaleX(v.x);
         this._texture.setScaleY(v.y);
     };
 
-    /**
-     * set rotate
-     * @param angle rotate angle
-     */
     ObjectBase.prototype.setRotate = function (angle) {
         this._texture.setRotation(angle);
     };
 
-    /**
-     * set position
-     * @param position object position
-     */
     ObjectBase.prototype.setPosition = function (position) {
         this._position.x = position.x;
         this._position.y = position.y;
@@ -321,10 +259,6 @@
         this._texture.setY(position.y);
     };
 
-    /**
-     * set target position
-     * @param target target position
-     */
     ObjectBase.prototype.setTargetPosition = function (target) {
         this._targetPosition.x = target.x;
         this._targetPosition.y = target.y;
@@ -337,18 +271,10 @@
         this._texture.setVisible(false);
     };
 
-    /**
-     * get position
-     * @return object position
-     */
     ObjectBase.prototype.getPosition = function () {
         return this._position;
     };
 
-    /**
-     * get dead flag
-     * @return dead flag
-     */
     ObjectBase.prototype.isDead = function () {
         return this._isDead;
     };
@@ -366,10 +292,6 @@
     }
     ****************************************/
 
-    /**
-     * player target update process
-     * @param playerPosition player position
-     */
     function playerTargetUpdateFunc (playerPosition) {
         // rush at player
         if(playerPosition.x > this._position.x) {
@@ -388,10 +310,6 @@
         }
     };
 
-    /**
-     * rotate update process
-     * @param playerPosition player position
-     */
     function rotateUpdateFunc (playerPosition) {
         this._position.x += Math.sin((this._angle += rand(0.02, 0.05))) * 0.8;
         this._position.y += this._velocity * 0.5;
@@ -399,9 +317,6 @@
         this._texture.setY(this._position.y);
     };
 
-    /**
-     * bullet update process
-     */
     function bulletUpdateFunc () {
         this._position.y -= 7.0;
         this._texture.setY(this._position.y);
@@ -414,11 +329,6 @@
 
     function ObjectFactory () {}
 
-    /**
-     * create object
-     * @param type object type
-     * @return appointed object
-     */
     ObjectFactory.create = function (type, imagename, system) {
         if(type == "Player") {
             function Player () {}
@@ -445,7 +355,6 @@
         this._bulletContainer = new List(),
         /**
          * push object data
-         * @param obj object data
          */
         this.push = function (object) {
             this._container.add(object);
@@ -478,7 +387,6 @@
                 this._bulletContainer.remove(i);
             } 
         },
-            
         /**
          * update containers
          */
@@ -493,7 +401,6 @@
                 this._bulletContainer.item(i).update();
             }
         },
-            
         /**
          * remove container's items
          */
@@ -506,7 +413,6 @@
                     i += 1;
                 }
             }
-            
             // remove update
             for(var i = 0; i < this._bulletContainer.getLength();) {
                 if(this._bulletContainer.item(i).isDead()) {
@@ -516,7 +422,6 @@
                 }
             }
         },
-            
         /**
          * collision detection
          */
@@ -530,7 +435,6 @@
                     i += 1;
                 } 
             }
-            
             // collision detection enemy vs player
             for(var i = 1, size = this._container.getLength(); i < size; i += 1) {
                 if(this._container.item(0).collisionDetection(this._container.item(i))) {
@@ -543,57 +447,41 @@
     function Particle(texture_path, system) {
         // position data
         this._position = new Vector2(0, 0),
-            
         // velocity
         this._velocity = 0,
-        
         // texture data
         this._texture = new arc.display.Sprite(system.getImage(texture_path)),
-            
         // dead flag
         this.isDead = false,
-            
         // alpha data
         this.alpha = 1.0
     }
-    
     function ParticleManager() {
     }
 
-    
     function SceneBase(system, game) {
         // game handler
         this._game = game,
-            
         // game system
         this._system = system,
-        
         // canvas data
         this._canvas = system.getCanvas(),
-            
         // object manager
         this._objectManager = null,
-            
         // scene sequence flag
         this._isNext = false,
-            
         // frame timer
         this._frameTimer = 0,
-            
         // clear limit
         this._clearLimit = 30,
-            
         // text renderer
         this._text = [],
-            
         // initialize
         this.initialize = function () {
         },
-            
         // update
         this.update = function () {
         },
-            
         // finish
         this.finish = function () {
         },
@@ -634,7 +522,6 @@
         for(var i = 0; i < 2; i += 1) {
             this._text[i].setText(text[i]);
         }
-        
         if(GetMouse.prototype.isPush) {
             this._isNext = true;
             GetMouse.prototype.isPush = false;
@@ -653,17 +540,17 @@
     /**
      * initialize update scene
      */
-    function initializeMain () {     
+    function initializeMain () {
          // craete object manager
          this._objectManager = null;
          this._objectManager = new ObjectManager();
-         
-         // create player object    
+
+         // create player object
          var player = ObjectFactory.create("Player", "images/player.png", this._system);
          player.initialize(this._game, new Vector2(120,400));
          player.setScale(new Vector2(0.5, 0.5));
          this._objectManager.push(player);
-            
+
          // create enemy object
          var enemy = [4];
          for(var i = 0; i < 4; i += 1) {
@@ -673,10 +560,10 @@
              enemy[i].setScale(new Vector2(0.3, 0.3));
              this._objectManager.push(enemy[i]);
         }
-        
+
         this._frameTimer = 0;
         this._clearLimit = 30;
-        
+
         // create score
         var x = [190, 0];
         var y = [20, 20];
@@ -694,9 +581,9 @@
      * update main scene
      */
     function updateMain () {
-        // update frame timer   
+        // update frame timer
         this._frameTimer += 1;
-        
+
         // create enemy
         if((this._frameTimer % 12) == 0 ){
             var texturePath = ["images/enemy01.png", "images/enemy02.png", "images/enemy03.png"];
@@ -706,7 +593,7 @@
             enemy.setScale(new Vector2(0.3, 0.3));
             this._objectManager.push(enemy);
         }
-        
+
         // create bullet
         if(GetMouse.prototype.isPush) {
             var bullet = ObjectFactory.create("Bullet", "images/particle.png", this._system);
@@ -716,17 +603,17 @@
             this._objectManager.pushBullet(bullet);
             GetMouse.prototype.isPush = false;
         }
-        
+
         // update object
         this._objectManager.update();
-        
+
         if((this._frameTimer % 60) == 0) {
             this._clearLimit -= 1;
             if(this._clearLimit == 0) {
                 GetSequence.prototype.GAME_CLEAR = true;
             }
         }
-        
+
         // display score
         this._text[0].setText("Score : " + GetGameParam.prototype.SCORE);
         this._text[1].setText("ClearLimitTime : " + this._clearLimit);
@@ -750,7 +637,7 @@
     function initializeOver () {
         var x = [105, 75];
         var y = [150, 180];
-        
+
         for(var i = 0; i < 2; i += 1) {
             this._text[i] = new arc.display.TextField()
             this._text[i].setFont("Monotype Corsiva", 20, true);
@@ -769,7 +656,7 @@
         for(var i = 0; i < 2; i += 1) {
             this._text[i].setText(text[i]);
         }
-        
+
         if(GetMouse.prototype.isPush) {
             this._isNext = true;
             GetMouse.prototype.isPush = false;
@@ -792,7 +679,7 @@
     function initializeClear () {
         var x = [60, 65];
         var y = [150, 180];
-        
+
         for(var i = 0; i < 2; i += 1) {
             this._text[i] = new arc.display.TextField()
             this._text[i].setFont("Monotype Corsiva", 20, true);
@@ -801,7 +688,7 @@
             this._text[i].setY(y[i]);
             this._game.addChild(this._text[i]);
         }
-        
+
         this._frameTimer = 0;
     }
 
@@ -813,9 +700,9 @@
         for(var i = 0; i < 2; i += 1) {
             this._text[i].setText(text[i]);
         }
-        
+
         this._frameTimer += 1;
-        
+
         if(GetMouse.prototype.isPush && this._frameTimer > 5) {
             this._isNext = true;
             GetMouse.prototype.isPush = false;
@@ -847,42 +734,29 @@
     function SceneManager(system, game) {
         // title scene process
         this._title = new SceneBase(system, game),
-            
-        // main scene process
         this._main = new SceneBase(system, game),
-            
         // game clear scene process
         this._clear = new SceneBase(system, game),
-            
         // game over scene process
         this._over = new SceneBase(system, game),
-            
         // scene container
         this._sceneContainer = [this._title, this._main, this._clear, this._over],
-            
         // currenct scene number
         this._current = SCENE_TYPE.TITLE,
-            
         // game handler
         this._game = game,
-            
         // game system
         this._system = system,
-            
         // initialize
         this.initialize = function () {
             this.registerSceneData();
-            
             this._sceneContainer[this._current].initialize();
         },
-            
         // update
         this.update = function () {
             this._sceneContainer[this._current].update();
-            
             this.changeScene();
         },
-            
         // register scene data process
         this.registerSceneData = function () {
             // setting background
@@ -891,56 +765,45 @@
             bg.drawRect(0, 0, 300, 500);
             bg.endFill();
             this._game.addChild(bg);
-                
             // setting title scene data
             this._title.initialize = initializeTitle;
             this._title.update = updateTitle;
             this._title.finish = finishTitle;
-            
             // setting main scene data
             this._main.initialize = initializeMain;
             this._main.update = updateMain;
             this._main.finish = finishMain;
-            
             // setting game clear scene data
             this._clear.initialize = initializeClear;
             this._clear.update = updateClear;
             this._clear.finish = finishClear;
-            
             // setting game over scene data
             this._over.initialize = initializeOver;
             this._over.update = updateOver;
             this._over.finish = finishOver;
         },
-            
         // change scene
         this.changeScene = function () {
             if(this._sceneContainer[this._current].isChange()){
                 this._sceneContainer[this._current].finish();
-                
                 if(this._current == SCENE_TYPE.TITLE) {
                     this._current = SCENE_TYPE.MAIN;
                 }
-                
                 if(this._current == SCENE_TYPE.OVER) {
                     this._current = SCENE_TYPE.MAIN;
                 }
-                
                 if(this._current == SCENE_TYPE.CLEAR) {
                     this._current = SCENE_TYPE.TITLE;
                 }
-                
                 this._sceneContainer[this._current].initialize();
                 return;
             }
-            
             if(GetSequence.prototype.GAME_OVER) {
                 this._sceneContainer[this._current].finish();
                 this._current = SCENE_TYPE.OVER;
                 this._sceneContainer[this._current].initialize();
                 return;
             }
-            
             if(GetSequence.prototype.GAME_CLEAR) {
                 this._sceneContainer[this._current].finish();
                 this._current = SCENE_TYPE.CLEAR;
@@ -952,15 +815,11 @@
 
     function GetSequence () {
         var instance;
-        
         GetSequence = function GetSequence () {
             return instance;
         };
-        
         instance = new GetSequence();
-        
         instance.constructor = GetSequence;
-        
         return instance;
     }
 
@@ -979,9 +838,6 @@
 
     /**
      * random generate
-     * @param min minimum number
-     * @param max maximum number
-     * @return between min and max
      */
     function rand (min, max) {
         return ( ( max - min ) * Math.random() ) + min;
@@ -989,9 +845,6 @@
 
     /**
      * randome generate
-     * @param min minimum number
-     * @param max maximum number
-     * @return between min and max
      * !caution: if you want get 0~3, you appoint randInt(0, 4); because of floor data.
      */
     function randInt (min, max) {
@@ -1000,8 +853,6 @@
 
     /**
      * to radian
-     * @param degree angle data
-     * @return radian
      */
     function toRadian (degree) {
         return degree * ( Math.PI / 180.0 )
@@ -1025,9 +876,6 @@
 
     /**
      * collision detection of circle vs circle
-     * @param circle1 circle data
-     * @param circle2 circle data
-     * @return if they collided, return true else false
      */
     function collisionCircle (circle1, circle2) {
         return ((Math.pow(circle1.x - circle2.x, 2) + 
@@ -1036,9 +884,6 @@
 
     /**
      * collision detection of rect vs rect
-     * @param rect1 rect data
-     * @param rect2 rect data
-     * @return if they collided, return true else false
      */
     function collisionRect () {
     }
@@ -1050,8 +895,6 @@
 
     /**
      * set position
-     * @param x x point
-     * @param y y point
      */
     Vector2.prototype.setPosition = function ( x, y ) {
         this.x = x;
@@ -1060,7 +903,6 @@
 
     /**
      * compute length
-     * @return vector length
      */
     Vector2.prototype.length = function () {
         return Math.sqrt(this.x * this.x + this.y * this.y);
@@ -1068,8 +910,6 @@
 
     /**
      * compute dot product
-     * @param v other vector
-     * @return dot product
      */
     Vector2.prototype.dot = function (v) {
         return this.x * v.x + this.y * v.y;
@@ -1077,8 +917,6 @@
 
     /**
      * add
-     * @param v other vector
-     * @return this
      */
     Vector2.prototype.add = function (v) {
         this.x += v.x;
@@ -1088,8 +926,6 @@
 
     /**
      * sub
-     * @param v other vector
-     * @return this
      */
     Vector2.prototype.sub = function (v) {
         this.x -= v.x;
@@ -1099,8 +935,6 @@
 
     /**
      * mul
-     * @parma v other vector
-     * @return this
      */
     Vector2.prototype.mul = function (v) {
         this.x *= v.x;
@@ -1110,7 +944,6 @@
 
     /**
      * normalize
-     * @return this
      */
     Vector2.prototype.normalize = function () {
         var len = this.length();
@@ -1126,8 +959,6 @@
 
     /**
      * compute angle
-     * @param v other vector
-     * @return angle
      */
     Vector2.prototype.computeTargetAngle = function (v) {
         return toDegree(Math.atan2(v.y - this.y, v.x - this.x));

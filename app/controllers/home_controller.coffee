@@ -6,4 +6,5 @@ action 'index', ->
 
 action 'arctic', ->
   @title="arctic"
+  layout(false)
   render()

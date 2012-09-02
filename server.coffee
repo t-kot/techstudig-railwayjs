@@ -15,7 +15,7 @@ app.configure 'production',->
     app.io.set 'polling duration',10
 
 app.io.sockets.on 'connection', (socket)->
-  console.log "connection!"
+  console.log "connexion!"
 
   #Receive the message
   socket.on "message", (msg)->
@@ -23,6 +23,8 @@ app.io.sockets.on 'connection', (socket)->
     User.find msg.user_id,(err,user)->
       msg.sender_image = user.image
       app.io.sockets.emit 'message',msg
+  socket.on "news", (msg)->
+    console.log msg
 
   socket.on "disconnect", ->
     console.log "Disconnect"

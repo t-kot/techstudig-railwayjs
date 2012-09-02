@@ -1,3 +1,7 @@
-!= javascript_include_tag('arctic','game')
+script(type='text/javascript',src='/socket.io/socket.io.js')
+!= javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', 'bootstrap', 'rails', 'jquery.cookie','application')
+script(type='text/javascript',src='/socket.io/socket.io.js')
+!= javascript_include_tag('arctic','game','game-transceiver')
+meta(name='viewport', content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no")
 
 canvas#canvas
