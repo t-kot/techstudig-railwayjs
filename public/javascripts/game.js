@@ -88,6 +88,12 @@
             this.changeScene();
         },
         this.registerSceneData = function () {
+            console.log("register SceneData");
+            var bg = new arc.display.Shape();
+            bg.beginFill(0x000000);
+            bg.drawRect(0,0,300,500);
+            bg.endFill();
+            GetGameParam.prototype.GAME_HANDLER.addChild(bg);
             // setting title scene data
             this._title.initialize = initializeTitle;
             this._title.update     = updateTitle;
@@ -121,6 +127,7 @@
                 return;
             }
             if(GetGameParam.prototype.GAME_OVER) {
+                console.log("Change scene type from game-over");
                 this._sceneContainer[this._current].finish();
                 this._current = SCENE_TYPE.OVER;
                 this._sceneContainer[this._current].initialize();
@@ -157,11 +164,25 @@
     }
 
     function initializeTitle() {
-        var black = new arc.display.Shape();
-        black.beginFill(0x000000);
-        black.drawRect(0, 0, 300, 500);
-        black.endFill();
-        GetGameParam.prototype.GAME_HANDLER.addChild(black);
+        console.log("initialize Title");
+        var x = [85,95];
+        var y = [150,180];
+        var text = ["Shooting Game!", "Click Start!"];
+        var bg = new arc.display.Shape();
+        bg.beginFill(0x000000);
+        bg.drawRect(0,0,300,500);
+        bg.endFill();
+        GetGameParam.prototype.GAME_HANDLER.addChild(bg);
+        for(var i =0; i<2; i++){
+            console.log("init text");
+            this._text[i] = new arc.display.TextField();
+            this._text[i].setText(text[i]);
+            this._text[i].setFont("Monotype Corsiva",20,true);
+            this._text[i].setColor(0xFFFFFF);
+            this._text[i].setX(x[i]);
+            this._text[i].setY(y[i]);
+            GetGameParam.prototype.GAME_HANDLER.addChild(this._text[i]);
+        }
     };
 
     function updateTitle () {
@@ -172,10 +193,15 @@
     };
 
     function finishTitle () {
+        console.log("finish title");
+        for(var i=0; i<2; i++){
+            GetGameParam.prototype.GAME_HANDLER.removeChild(this._text[i]);
+        }
         this._isNext = false;
     };
 
     function initializeMain() {
+        console.log("initialize main");
         // create background data
         for (var i = 0; i < 2; i += 1) {
             this._bg[i] = new arc.display.Sprite(GetGameParam.prototype.GAME_SYSTEM.getImage("images/bg.png"));
@@ -267,6 +293,20 @@
     };
 
     function initializeOver () {
+        console.log("initialize over");
+        var x = [105,75];
+        var y = [150,180];
+        var text = ["Game Over.", "Click Start Again!"];
+
+        for(var i=0; i <2; i++){
+            this._text[i] = new arc.display.TextField();
+            this._text[i].setFont("Monotype Corsiva", 20, true);
+            this._text[i].setColor(0xFFFFFF);
+            this._text[i].setX(x[i]);
+            this._text[i].setY(y[i]);
+            this._text[i].setText(text[i]);
+            GetGameParam.prototype.GAME_HANDLER.addChild(this._text[i]);
+        }
     };
 
     function updateOver () {
@@ -277,11 +317,16 @@
     };
 
     function finishOver () {
+        console.log("finish over");
+        for(var i=0; i< 2; i++){
+            GetGameParam.prototype.GAME_HANDLER.removeChild(this._text[i]);
+        }
         this._isNext = false;
-        GetGameParam.prototype.initialize();
+        //GetGameParam.prototype.initialize();
     };
 
     function initializeClear () {
+        console.log("initialize clear");
     }
 
     function updateClear () {
@@ -292,6 +337,7 @@
     }
 
     function finishClear () {
+        console.log("finish clear");
         this._isNext = false;
         GetGameParam.prototype.initialize();
     }
@@ -437,6 +483,7 @@
             this._bulletContainer.add(bullet);
         },
 
+        // ここが何回も呼ばれる
         this.update = function () {
             this.updateContainer();
             this.removeContainer();
@@ -493,6 +540,7 @@
                 if(this._container.item(i).collisionBullet(this._bulletContainer)){
                     this._container.remove(i);
                     GetGameParam.prototype.SCORE += 10;
+                    if(i%5==0) TRANSCEIVER.sendScore(100);
                 } else {
                     i += 1;
                 }
@@ -569,6 +617,8 @@
             return this._length;
         }
     };
+
+    /*------------mouse event ------------*/
     function GetMouse () {
         var instance;
         GetMouse = function GetMouse () {
@@ -583,6 +633,8 @@
     GetMouse.prototype.x = 120;
     GetMouse.prototype.y = 400;
     GetMouse.prototype.isPush = false;
+
+    /*------------utility ------------*/
 
     function inherit (C, P) {
         C.prototype = new P(arguments[2], arguments[3]);
@@ -605,7 +657,7 @@
     }
 
     function collisionCircle (circle1, circle2) {
-        return ((Math.pow(circle1.x - circle2.x, 2) + 
+        return ((Math.pow(circle1.x - circle2.x, 2) +
                  Math.pow(circle1.y - circle2.y, 2)) < Math.pow(15.0, 2));
     }
 
@@ -668,8 +720,4 @@
 
         return this;
     };
-
-
-
-
 })();
