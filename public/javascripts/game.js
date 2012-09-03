@@ -183,7 +183,7 @@ function initializeMain() {
     // create score
     var x = [190, 0];
     var y = [20, 20];
-    for(var i = 0; i < 2; i += 1) {
+    for(var i = 0; i < x.length; i += 1) {
         this._text[i] = new arc.display.TextField();
         this._text[i].setFont("Monotype Corsiva", 18, true);
         this._text[i].setColor(0xFFFFFF);
@@ -237,7 +237,7 @@ function updateMain () {
 
     // display score
     this._text[0].setText("Score : " + GetGameParam.prototype.SCORE);
-    this._text[1].setText("ClearLimitTime : " + GetGameParam.prototype.TIMER);
+    this._text[1].setText("Now Player : " + GetGameParam.prototype.TIMER);
 };
 
 function finishMain () {

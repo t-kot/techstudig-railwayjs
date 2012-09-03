@@ -1,0 +1,15 @@
+.page-header
+  h1 Index of games
+
+- games.forEach(function (game) {
+  .row
+    .span-two-thirds= 'game #' + game.id
+    .span-one-third
+      != link_to('Edit', path_to.edit_game(game), {class: 'btn primary'}) + ' '
+      != link_to('Delete', path_to.game(game), {class: 'btn danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'})
+- });
+
+hr
+
+.well
+  != link_to('New game', path_to.new_game(), {class: 'btn'})

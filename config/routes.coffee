@@ -1,4 +1,5 @@
 exports.routes = (map)->
+  map.resources 'games'
   map.resources 'rooms'
   map.root 'home#index'
   map.get('game','home#arctic')

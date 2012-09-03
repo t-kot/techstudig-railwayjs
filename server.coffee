@@ -34,3 +34,11 @@ app.io.sockets.on 'connection', (socket)->
   socket.on "disconnect", ->
     console.log "Disconnect"
 
+memcache = require('memcache')
+client = new memcache.Client()
+client.connect()
+client.set 'hoge', 'fuga', (err,result)->
+  console.log err if err
+client.get 'hoge',(err,result)->
+  console.log result
+  console.log err if err

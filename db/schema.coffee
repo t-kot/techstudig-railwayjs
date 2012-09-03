@@ -12,3 +12,9 @@ Room = describe 'Room', () ->
     property 'userId', Number
     property 'title', String
     property 'createdAt', Date, default: Date()
+Game = describe 'Game', () ->
+    property 'ownerId', Number
+    property 'ownerName', String
+    property 'title', String
+    property 'type', Number
+    property 'createdAt', Date
