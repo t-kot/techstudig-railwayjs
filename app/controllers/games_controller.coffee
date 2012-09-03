@@ -1,4 +1,5 @@
 load 'application'
+before(use 'requireAuthenticate')
 
 before 'load game', ->
     Game.find params.id, (err, game) =>
@@ -12,6 +13,8 @@ before 'load game', ->
 action 'new', ->
     @game = new Game
     @title = 'New game'
+    @game.ownerId = @current_user.id
+    @game.ownerName = @current_user.name
     render()
 
 action 'create', ->
@@ -33,6 +36,7 @@ action 'index', ->
 
 action 'show', ->
     @title = 'Game show'
+    layout(false)
     render()
 
 action 'edit', ->

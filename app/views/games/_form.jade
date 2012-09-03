@@ -1,11 +1,7 @@
-.clearfix
-  != form.label("ownerId")
-  .input
-    != form.input("ownerId")
-.clearfix
-  != form.label("ownerName")
-  .input
-    != form.input("ownerName")
+.input
+  != form.input("ownerId",{type:"hidden"})
+.input
+  != form.input("ownerName",{type:"hidden"})
 .clearfix
   != form.label("title")
   .input
@@ -14,7 +10,3 @@
   != form.label("type")
   .input
     != form.input("type")
-.clearfix
-  != form.label("createdAt")
-  .input
-    != form.input("createdAt")

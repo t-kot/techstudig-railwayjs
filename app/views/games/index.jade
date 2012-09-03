@@ -1,14 +1,30 @@
 .page-header
   h1 Index of games
 
-- games.forEach(function (game) {
-  .row
-    .span-two-thirds= 'game #' + game.id
-    .span-one-third
-      != link_to('Edit', path_to.edit_game(game), {class: 'btn primary'}) + ' '
-      != link_to('Delete', path_to.game(game), {class: 'btn danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'})
-- });
-
+.row
+  .span12
+    - if (games.length > 0) {
+      table.table.table-striped
+        thead
+          tr
+            th Title
+            th Type
+            th Owner
+        tbody
+          - games.forEach(function (game){
+            tr
+              td
+                strong
+                  != link_to(game.title, path_to.game(game))
+              td= game.type
+              td= game.ownerName
+              td
+                != link_to('<i class="icon-remove icon-white"></i>Delete', path_to.game(game), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'})
+          - })
+    -} else {
+      p.alert.alert-block.alert-info
+        strong No games were found.
+    - }
 hr
 
 .well

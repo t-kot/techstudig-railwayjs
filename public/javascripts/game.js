@@ -159,10 +159,10 @@ function finishTitle () {
 };
 
 function initializeMain() {
-    console.log("initialize main");
     // create background data
     for (var i = 0; i < 2; i += 1) {
-        this._bg[i] = new arc.display.Sprite(GetGameParam.prototype.GAME_SYSTEM.getImage("images/bg.png"));
+        this._bg[i] = new arc.display.Sprite(GetGameParam.prototype.GAME_SYSTEM.getImage("/images/bg.png"));
+        console.log(this._bg[i]);
         this._bg[i].setX(0);
         this._bg[i].setY(0 + (i*500));
         GetGameParam.prototype.GAME_HANDLER.addChild(this._bg[i]);
@@ -173,7 +173,7 @@ function initializeMain() {
     this._objectManager = new ObjectManager();
 
     // create player object
-    var player = ObjectFactory.create("Player", "images/player.png", GetGameParam.prototype.GAME_SYSTEM);
+    var player = ObjectFactory.create("Player", "/images/player.png", GetGameParam.prototype.GAME_SYSTEM);
     player.initialize(new Vector2(120,400));
     player.setScale(new Vector2(0.5, 0.5));
     this._objectManager.push(player);
@@ -183,7 +183,8 @@ function initializeMain() {
     // create score
     var x = [190, 0];
     var y = [20, 20];
-    for(var i = 0; i < x.length; i += 1) {
+    for(var i = 0; i < 2; i += 1) {
+        console.log("init text");
         this._text[i] = new arc.display.TextField();
         this._text[i].setFont("Monotype Corsiva", 18, true);
         this._text[i].setColor(0xFFFFFF);
@@ -191,9 +192,11 @@ function initializeMain() {
         this._text[i].setY(y[i]);
         GetGameParam.prototype.GAME_HANDLER.addChild(this._text[i]);
     }
+    console.log("initialize main4");
 };
 
 function updateMain () {
+    console.log("update main");
     // update frame timer
     this._frameTimer += 1;
 
@@ -207,7 +210,7 @@ function updateMain () {
 
     // create enemy
     if((this._frameTimer % 12) == 0 ){
-        var texturePath = ["images/enemy01.png", "images/enemy02.png", "images/enemy03.png"];
+        var texturePath = ["/images/enemy01.png", "/images/enemy02.png", "/images/enemy03.png"];
         var enemy = ObjectFactory.create("Enemy", texturePath[randInt(0, 3)], GetGameParam.prototype.GAME_SYSTEM);
         enemy.initialize(new Vector2(rand(0, 250), 0));
         randInt(0, 2) ? enemy.update = playerTargetUpdateFunc : enemy.update = rotateUpdateFunc;
@@ -217,7 +220,7 @@ function updateMain () {
 
     // create bullet
     if((this._frameTimer % 10) == 0) {
-        var bullet = ObjectFactory.create("Bullet", "images/particle.png", GetGameParam.prototype.GAME_SYSTEM);
+        var bullet = ObjectFactory.create("Bullet", "/images/particle.png", GetGameParam.prototype.GAME_SYSTEM);
         bullet.initialize(new Vector2(GetMouse.prototype.x - 1, GetMouse.prototype.y));
         bullet.setScale(new Vector2(0.7, 0.7));
         bullet.update = bulletUpdateFunc;
@@ -720,7 +723,7 @@ Vector2.prototype.fromPitchYaw = function (ele, dir) {
     window.addEventListener('DOMContentLoaded', function (event) {
         system = new arc.System(300, 500, "canvas");
         system.setGameClass(GameApp);
-        system.load(["images/player.png", "images/enemy01.png", "images/enemy02.png", "images/enemy03.png", "images/enemy04.png", "images/particle.png", "images/bg.png", "images/title.png", "images/over.png", "images/clear.png", "images/life.png", "images/life_frame.png"]);
+        system.load(["/images/player.png", "/images/enemy01.png", "/images/enemy02.png", "/images/enemy03.png", "/images/enemy04.png", "/images/particle.png", "/images/bg.png", "/images/title.png", "/images/over.png", "/images/clear.png", "/images/life.png", "/images/life_frame.png"]);
     }, false);
 })();
 

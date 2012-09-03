@@ -9,12 +9,12 @@ Post = describe 'Post', () ->
     property 'body', String
     property 'createdAt', Date, default: Date()
 Room = describe 'Room', () ->
-    property 'userId', Number
+    property 'userId', String
     property 'title', String
     property 'createdAt', Date, default: Date()
 Game = describe 'Game', () ->
-    property 'ownerId', Number
+    property 'ownerId',String
     property 'ownerName', String
     property 'title', String
     property 'type', Number
-    property 'createdAt', Date
+    property 'createdAt', Date, default: Date()

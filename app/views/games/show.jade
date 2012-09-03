@@ -1,15 +1,8 @@
-.page-header
-  h1 Details of game
+script(type='text/javascript',src='/socket.io/socket.io.js')
+!= javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', 'bootstrap', 'rails', 'jquery.cookie','application')
+script(type='text/javascript',src='/socket.io/socket.io.js')
+!= javascript_include_tag('arctic','game','game-transceiver')
+meta(name='viewport', content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no")
 
-div(about=path_to.game(game))
-  .field(property='ownerId')= game.ownerId
-  .field(property='ownerName')= game.ownerName
-  .field(property='title')= game.title
-  .field(property='type')= game.type
-  .field(property='createdAt')= game.createdAt
+canvas#canvas
 
-.actions
-  != link_to('Edit', path_to.edit_game(game), {class: 'btn primary'}) + ' '
-  != link_to('Delete', path_to.game(game), {class: 'btn danger', method: 'delete', remote: true, jsonp: '(function (u) { location.href = u; })'})
-  span= ' or '
-  != link_to('Back to index', path_to.games())
