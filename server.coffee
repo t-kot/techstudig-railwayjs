@@ -3,9 +3,9 @@
 app = module.exports = require('railway').createServer()
 
 if not module.parent
-    port = process.env.PORT or 3000
-    app.listen port
-    console.log "Railway server listening on port %d within %s environment", port, app.settings.env
+  port = process.env.PORT or 3000
+  app.listen port
+  console.log "Railway server listening on port %d within %s environment", port, app.settings.env
 
 app.io = require('socket.io').listen(app)
 
@@ -14,8 +14,11 @@ app.configure 'production',->
     app.io.set 'transports', ["xhr-polling"]
     app.io.set 'polling duration',10
 
+
+count = 0;
 app.io.sockets.on 'connection', (socket)->
-  console.log "connexion!"
+  count++
+  app.io.sockets.emit 'user_in',count
 
   #Receive the message
   socket.on "message", (msg)->
@@ -32,13 +35,16 @@ app.io.sockets.on 'connection', (socket)->
         app.io.sockets.emit 'score_news_push',score
 
   socket.on "disconnect", ->
+    count--
     console.log "Disconnect"
+    app.io.sockets.emit "user_out",count
+
 
 memcache = require('memcache')
-client = new memcache.Client()
-client.connect()
-client.set 'hoge', 'fuga', (err,result)->
+app.client = new memcache.Client()
+app.client.connect()
+app.client.set 'hoge', 'fuga', (err,result)->
   console.log err if err
-client.get 'hoge',(err,result)->
+app.client.get 'hoge',(err,result)->
   console.log result
   console.log err if err

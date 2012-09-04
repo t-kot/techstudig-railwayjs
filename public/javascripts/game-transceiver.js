@@ -1,10 +1,16 @@
 var TRANSCEIVER = {};
-console.log("transceiver");
 var host = location.href;
 var socket = io.connect("/");
 
-socket.on("connect", function(msg){
-    console.log("connection submit!");
+socket.on("connection", function(msg){
+    console.log("connection receive!");
+});
+socket.on("user_in",function(data){
+    console.log(data);
+    GetGameParam.prototype.NOW_PLAYING = data;
+});
+socket.on("user_out",function(data){
+    GetGameParam.prototype.NOW_PLAYING = data;
 });
 
 TRANSCEIVER.sendScore = function(score){

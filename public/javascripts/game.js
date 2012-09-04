@@ -196,7 +196,6 @@ function initializeMain() {
 };
 
 function updateMain () {
-    console.log("update main");
     // update frame timer
     this._frameTimer += 1;
 
@@ -240,7 +239,7 @@ function updateMain () {
 
     // display score
     this._text[0].setText("Score : " + GetGameParam.prototype.SCORE);
-    this._text[1].setText("Now Player : " + GetGameParam.prototype.TIMER);
+    this._text[1].setText("Now Player : " + GetGameParam.prototype.NOW_PLAYING);
 };
 
 function finishMain () {
