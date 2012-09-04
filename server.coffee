@@ -24,6 +24,8 @@ app.io.sockets.on 'connection', (socket)->
 
   #Receive the message
   socket.on "enterGame",()->
+    console.log count
+    console.log "enter game"
     scores.push 50
     count++
     app.io.sockets.emit 'user_in',count

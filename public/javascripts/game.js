@@ -160,6 +160,7 @@ function finishTitle () {
 
 function initializeMain() {
     TRANSCEIVER.enterGame();
+    console.log("Initialize Main");
     // create background data
     for (var i = 0; i < 2; i += 1) {
         this._bg[i] = new arc.display.Sprite(GetGameParam.prototype.GAME_SYSTEM.getImage("/images/bg.png"));
@@ -234,7 +235,7 @@ function updateMain () {
     if((this._frameTimer % 60) == 0) {
         GetGameParam.prototype.TIMER -= 1;
         if (GetGameParam.prototype.TIMER == 0) {
-            GetGameParam.prototype.GAME_CLEAR = true;
+            //GetGameParam.prototype.GAME_CLEAR = true;
         }
     }
 
