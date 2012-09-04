@@ -159,6 +159,7 @@ function finishTitle () {
 };
 
 function initializeMain() {
+    TRANSCEIVER.enterGame();
     // create background data
     for (var i = 0; i < 2; i += 1) {
         this._bg[i] = new arc.display.Sprite(GetGameParam.prototype.GAME_SYSTEM.getImage("/images/bg.png"));
@@ -243,6 +244,7 @@ function updateMain () {
 };
 
 function finishMain () {
+    console.log("finishMain");
     this._objectManager.finish();
     this._isNext = false;
     GetGameParam.prototype.initialize();

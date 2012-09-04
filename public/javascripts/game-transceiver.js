@@ -2,6 +2,7 @@ var TRANSCEIVER = {};
 var host = location.href;
 var socket = io.connect("/");
 
+// RECEIVER
 socket.on("connection", function(msg){
     console.log("connection receive!");
 });
@@ -12,12 +13,6 @@ socket.on("user_in",function(data){
 socket.on("user_out",function(data){
     GetGameParam.prototype.NOW_PLAYING = data;
 });
-
-TRANSCEIVER.sendScore = function(score){
-    console.log("send score");
-    var user = $.cookie("user_id");
-    socket.emit("score_news_send", {score:score, user_id:user});
-};
 
 socket.on('score_news_push', function(msg){
     console.log(arc);
@@ -32,3 +27,15 @@ socket.on('score_news_push', function(msg){
     GetGameParam.prototype.GAME_HANDLER.addChild(text);
 
 });
+
+// TRANSFER
+TRANSCEIVER.enterGame = function(){
+    socket.emit("enterGame",{});
+};
+
+TRANSCEIVER.sendScore = function(score){
+    console.log("send score");
+    var user = $.cookie("user_id");
+    socket.emit("scoreSend", {score:score, user_id:user});
+};
+

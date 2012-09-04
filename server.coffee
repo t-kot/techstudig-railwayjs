@@ -15,21 +15,27 @@ app.configure 'production',->
     app.io.set 'polling duration',10
 
 
-count = 0;
+count = 0
+scores = []
 app.io.sockets.on 'connection', (socket)->
-  count++
-  app.io.sockets.emit 'user_in',count
 
   #Receive the message
+  socket.on "enterGame",()->
+    scores.push 50
+    count++
+    app.io.sockets.emit 'user_in',count
   socket.on "message", (msg)->
     User.find msg.user_id,(err,user)->
       msg.sender_image = user.image
       app.io.sockets.emit 'message',msg
   socket.on "score_news_send", (msg)->
+    console.log scores
     User.find msg.user_id, (err,user)->
       if err
         console.log
       else
+        star = calculateStar(msg.score, scores, count)
+        scores.push msg.score
         score = {}
         [score.user,score.point]=[user.name,msg.score]
         app.io.sockets.emit 'score_news_push',score
@@ -48,3 +54,24 @@ app.client.set 'hoge', 'fuga', (err,result)->
 app.client.get 'hoge',(err,result)->
   console.log result
   console.log err if err
+
+calculateStar = (score,scores,count)->
+  if count ==1
+    return 0
+  console.log scores.length
+  console.log count
+  start = scores.length - count + 1
+  rivals = scores.slice(start)
+  ranking = 1
+  return 100
+  rivals.forEach (val)->
+    ranking++ if val > score
+  console.log ranking
+  if ranking == count
+    console.log 0
+    return 0
+  else
+    console.log 2
+    return 2
+
+
