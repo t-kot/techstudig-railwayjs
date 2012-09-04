@@ -332,7 +332,13 @@ function ObjectBase(texture_path) {
 
     this.collisionDetection = function (other) {
         if(collisionCircle(this._position, other._position)) {
-            this.remove();
+            //this.remove();
+            //TODO Damage Alert Message
+            if(GetGameParam.prototype.SCORE < 100){
+                GetGameParam.prototype.SCORE = 0;
+            }else{
+                GetGameParam.prototype.SCORE-=100;
+            }
             other.remove();
             return true;
         }
@@ -511,7 +517,8 @@ function ObjectManager() {
         // collision detection enemy vs player
         for(var i = 1, size = this._container.getLength(); i < size; i += 1) {
             if(this._container.item(0).collisionDetection(this._container.item(i))) {
-                GetGameParam.prototype.GAME_OVER = true;
+                console.log("not GAME OVER");
+                //GetGameParam.prototype.GAME_OVER = true;
             }
         }
     }

@@ -18,13 +18,13 @@ socket.on('score_news_push', function(msg){
     console.log(arc);
     console.log("receive score");
     console.log(msg);
-    var text = new arc.display.TextField();
-    text.setFont("Monotype Corsiva", 20, true);
-    text.setColor(0xFFFFFF);
-    text.setX(100);
-    text.setY(200);
-    text.setText(msg.point + "Get!");
-    GetGameParam.prototype.GAME_HANDLER.addChild(text);
+    //var text = new arc.display.TextField();
+    //text.setFont("Monotype Corsiva", 20, true);
+    //text.setColor(0xFFFFFF);
+    //text.setX(100);
+    //text.setY(200);
+    //text.setText(msg.point + "Get!");
+    //GetGameParam.prototype.GAME_HANDLER.addChild(text);
 
 });
 

@@ -15,6 +15,9 @@ app.configure 'production',->
     app.io.set 'polling duration',10
 
 
+app.games = {}
+console.log "init app.games"
+app.games["hoge"] = 1
 count = 0
 scores = []
 app.io.sockets.on 'connection', (socket)->
@@ -28,7 +31,7 @@ app.io.sockets.on 'connection', (socket)->
     User.find msg.user_id,(err,user)->
       msg.sender_image = user.image
       app.io.sockets.emit 'message',msg
-  socket.on "score_news_send", (msg)->
+  socket.on "scoreSend", (msg)->
     console.log scores
     User.find msg.user_id, (err,user)->
       if err
@@ -49,11 +52,6 @@ app.io.sockets.on 'connection', (socket)->
 memcache = require('memcache')
 app.client = new memcache.Client()
 app.client.connect()
-app.client.set 'hoge', 'fuga', (err,result)->
-  console.log err if err
-app.client.get 'hoge',(err,result)->
-  console.log result
-  console.log err if err
 
 calculateStar = (score,scores,count)->
   if count ==1

@@ -35,6 +35,9 @@ action 'index', ->
         render()
 
 action 'show', ->
+    app.client.get 'hoge',(err,result)->
+        console.log result
+
     @title = 'Game show'
     layout(false)
     render()
