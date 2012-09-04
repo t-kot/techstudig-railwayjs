@@ -24,26 +24,37 @@ app.io.sockets.on 'connection', (socket)->
 
   #Receive the message
   socket.on "enterGame",()->
+    count++
     console.log count
     console.log "enter game"
     scores.push 50
-    count++
     app.io.sockets.emit 'user_in',count
   socket.on "message", (msg)->
     User.find msg.user_id,(err,user)->
       msg.sender_image = user.image
       app.io.sockets.emit 'message',msg
-  socket.on "scoreSend", (msg)->
-    console.log scores
+
+  socket.on "sendScore", (msg)->
     User.find msg.user_id, (err,user)->
       if err
-        console.log
+        console.log("USER FIND!")
       else
         star = calculateStar(msg.score, scores, count)
+        #star = 10
         scores.push msg.score
-        score = {}
-        [score.user,score.point]=[user.name,msg.score]
-        app.io.sockets.emit 'score_news_push',score
+        app.io.sockets.emit 'scoreResult',star
+    
+  #socket.on "scoreSend", (msg)->
+  #  console.log scores
+  #  User.find msg.user_id, (err,user)->
+  #    if err
+  #      console.log
+  #    else
+  #      star = calculateStar(msg.score, scores, count)
+  #      scores.push msg.score
+  #      score = {}
+  #      [score.user,score.point]=[user.name,msg.score]
+  #      app.io.sockets.emit 'score_news_push',score
 
   socket.on "disconnect", ->
     count--
@@ -58,20 +69,16 @@ app.client.connect()
 calculateStar = (score,scores,count)->
   if count ==1
     return 0
-  console.log scores.length
-  console.log count
   start = scores.length - count + 1
-  rivals = scores.slice(start)
+  rivals = scores.splice(start)
   ranking = 1
   return 100
   rivals.forEach (val)->
     ranking++ if val > score
   console.log ranking
   if ranking == count
-    console.log 0
     return 0
   else
-    console.log 2
     return 2
 
 

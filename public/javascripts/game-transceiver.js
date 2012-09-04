@@ -7,17 +7,18 @@ socket.on("connection", function(msg){
     console.log("connection receive!");
 });
 socket.on("user_in",function(data){
-    console.log(data);
+    console.log("Now playing is "+data);
     GetGameParam.prototype.NOW_PLAYING = data;
 });
 socket.on("user_out",function(data){
+    console.log("Now playing is "+data);
     GetGameParam.prototype.NOW_PLAYING = data;
 });
 
-socket.on('score_news_push', function(msg){
-    console.log(arc);
-    console.log("receive score");
-    console.log(msg);
+//socket.on('score_news_push', function(msg){
+    //console.log(arc);
+    //console.log("receive score");
+    //console.log(msg);
     //var text = new arc.display.TextField();
     //text.setFont("Monotype Corsiva", 20, true);
     //text.setColor(0xFFFFFF);
@@ -25,7 +26,9 @@ socket.on('score_news_push', function(msg){
     //text.setY(200);
     //text.setText(msg.point + "Get!");
     //GetGameParam.prototype.GAME_HANDLER.addChild(text);
-
+//});
+socket.on('scoreResult', function(star){
+    console.log("You got " + star);
 });
 
 // TRANSFER
@@ -36,6 +39,6 @@ TRANSCEIVER.enterGame = function(){
 TRANSCEIVER.sendScore = function(score){
     console.log("send score");
     var user = $.cookie("user_id");
-    socket.emit("scoreSend", {score:score, user_id:user});
+    socket.emit("sendScore", {score:score, user_id:user});
 };
 
