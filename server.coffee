@@ -17,22 +17,18 @@ app.configure 'production',->
 
 app.games = {}
 console.log "init app.games"
-app.games["hoge"] = 1
 count = 0
 scores = []
 app.io.sockets.on 'connection', (socket)->
 
-  #Receive the message
-  socket.on "enterGame",()->
-    count++
-    console.log count
-    console.log "enter game"
-    scores.push 50
-    app.io.sockets.emit 'user_in',count
-  socket.on "message", (msg)->
-    User.find msg.user_id,(err,user)->
-      msg.sender_image = user.image
-      app.io.sockets.emit 'message',msg
+
+  socket.on "enterGame",(gameid)->
+    console.log "===socket join "+gameid
+    socket.join gameid
+    socket.set 'gameid', gameid
+    count = app.io.sockets.clients(gameid).length
+    console.log "======count is======"+count
+    app.io.sockets.in(gameid).emit "userIn",count
 
   socket.on "sendScore", (msg)->
     User.find msg.user_id, (err,user)->
@@ -43,23 +39,15 @@ app.io.sockets.on 'connection', (socket)->
         #star = 10
         scores.push msg.score
         app.io.sockets.emit 'scoreResult',star
-    
-  #socket.on "scoreSend", (msg)->
-  #  console.log scores
-  #  User.find msg.user_id, (err,user)->
-  #    if err
-  #      console.log
-  #    else
-  #      star = calculateStar(msg.score, scores, count)
-  #      scores.push msg.score
-  #      score = {}
-  #      [score.user,score.point]=[user.name,msg.score]
-  #      app.io.sockets.emit 'score_news_push',score
+        user.star += star
+        user.save()
 
   socket.on "disconnect", ->
-    count--
-    console.log "Disconnect"
-    app.io.sockets.emit "user_out",count
+    socket.get 'gameid',(err,gameid)->
+      console.log "====gameid is ====="+gameid+err
+      socket.leave(gameid)
+      count = app.io.sockets.clients(gameid).length
+      app.io.sockets.in(gameid).emit('userOut',count)
 
 
 memcache = require('memcache')
@@ -67,12 +55,12 @@ app.client = new memcache.Client()
 app.client.connect()
 
 calculateStar = (score,scores,count)->
+  console.log scores
   if count ==1
     return 0
   start = scores.length - count + 1
   rivals = scores.splice(start)
   ranking = 1
-  return 100
   rivals.forEach (val)->
     ranking++ if val > score
   console.log ranking

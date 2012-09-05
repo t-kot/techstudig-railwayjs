@@ -34,13 +34,13 @@ action 'index', ->
         @title = 'Games index'
         render()
 
+count = 0
+scores = []
 action 'show', ->
-    app.client.get 'hoge',(err,result)->
-        console.log result
 
-    @title = 'Game show'
-    layout(false)
-    render()
+  @title = 'Game show'
+  layout(false)
+  render()
 
 action 'edit', ->
     @title = 'Game edit'

@@ -9,6 +9,7 @@ function GetGameParam () {
 }
 
 GetGameParam.prototype.SCORE = 0;
+GetGameParam.prototype.SCORE_LAP = 0;
 GetGameParam.prototype.TIMER = 60;
 GetGameParam.prototype.GAME_OVER = false;
 GetGameParam.prototype.GAME_CLEAR = false;
@@ -17,6 +18,7 @@ GetGameParam.prototype.GAME_SYSTEM = null;
 
 GetGameParam.prototype.initialize = function () {
     this.SCORE = 0;
+    this.SCORE_LAP = 0;
     this.TIMER = 60;
     this.GAME_OVER = false;
     this.GAME_CLEAR = false;
@@ -239,6 +241,12 @@ function updateMain () {
         }
     }
 
+    if((this._frameTimer % 1200) == 0){
+        TRANSCEIVER.sendScore(GetGameParam.prototype.SCORE_LAP);
+        console.log("Submit Score lap"+GetGameParam.prototype.SCORE_LAP);
+        GetGameParam.prototype.SCORE_LAP = 0;
+    }
+
     // display score
     this._text[0].setText("Score : " + GetGameParam.prototype.SCORE);
     this._text[1].setText("Now Player : " + GetGameParam.prototype.NOW_PLAYING);
@@ -339,6 +347,11 @@ function ObjectBase(texture_path) {
                 GetGameParam.prototype.SCORE = 0;
             }else{
                 GetGameParam.prototype.SCORE-=100;
+            }
+            if(GetGameParam.prototype.SCORE_LAP < 100){
+                GetGameParam.prototype.SCORE_LAP = 0;
+            }else{
+                GetGameParam.prototype.SCORE_LAP-=100;
             }
             other.remove();
             return true;
@@ -509,7 +522,8 @@ function ObjectManager() {
             if(this._container.item(i).collisionBullet(this._bulletContainer)){
                 this._container.remove(i);
                 GetGameParam.prototype.SCORE += 10;
-                if(i%5==0) TRANSCEIVER.sendScore(100);
+                GetGameParam.prototype.SCORE_LAP += 10;
+                //if(i%5==0) TRANSCEIVER.sendScore(100);
             } else {
                 i += 1;
             }
