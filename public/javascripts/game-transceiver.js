@@ -21,13 +21,20 @@ socket.on('scoreResult', function(star){
 
 // TRANSFER
 TRANSCEIVER.enterGame = function(){
-    id = location.href.split("/").pop();
+    id = this.util.getMongoId();
     socket.emit("enterGame",id);
 };
 
 TRANSCEIVER.sendScore = function(score){
     console.log("send score");
     var user = $.cookie("user_id");
-    socket.emit("sendScore", {score:score, user_id:user});
+    socket.emit("sendScore", {score:score, userId:user});
 };
 
+TRANSCEIVER.util = {};
+TRANSCEIVER.util.getMongoId = function(){
+    id = location.href.split("/").pop();
+    end = id.indexOf("?");
+    if(end > 0) {id = id.substr(0,end);}
+    return id;
+};
