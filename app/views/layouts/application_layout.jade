@@ -10,15 +10,35 @@ html
       .navbar-inner
         .container
           a.brand(href="/") TechStuDIG
-          .nav-collapse.collapse
+          .nav-collapse
             ul.nav
               - if (current_user) {
-                li
-                  != link_to("Chat Rooms",path_to.rooms() )
-                li
-                  != link_to("Create Chat Room",path_to.new_room())
-                li
-                  != link_to("Edit User",path_to.edit_user(current_user))
+                li.dropdown
+                  a.dropdown-toggle(data-toggle="dropdown") Game
+                    b.caret
+                  ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                    li
+                      != link_to("Create Game Room",path_to.new_game())
+                    li
+                      != link_to("Game Room",path_to.games())
+                li.dropdown
+                  a.dropdown-toggle(data-toggle="dropdown") Chat
+                    b.caret
+                  ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                    li
+                      != link_to("Create Chat Room",path_to.new_room())
+                    li
+                      != link_to("Chat Rooms",path_to.rooms())
+
+                li.dropdown
+                  a.dropdown-toggle(data-toggle="dropdown")= current_user.name
+                    b.caret
+                  ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                    li
+                      != link_to("View Profile",path_to.user(current_user))
+                    li
+                      != link_to("Edit Profile",path_to.edit_user(current_user))
+
                 li
                   != link_to("Logout",'/logout')
               -}else {
