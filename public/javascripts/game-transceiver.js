@@ -14,11 +14,9 @@ socket.on("userOut",function(data){
     GetGameParam.prototype.NOW_PLAYING = data;
 });
 
-socket.on('scoreResult', function(star){
-    console.log("You got " + star);
-});
-socket.on('lapScoreRanking', function(ranking){
-    console.log("Your score is " + ranking + "place for this term");
+socket.on('scoreResult', function(data){
+    console.log("You got " + data.star);
+    console.log("Your score is " + data.ranking + "place for this term");
 });
 
 // TRANSMITTER
