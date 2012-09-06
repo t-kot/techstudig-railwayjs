@@ -1,4 +1,3 @@
-var TRANSCEIVER = {};
 var host = location.href;
 var socket = io.connect("/");
 
@@ -19,22 +18,24 @@ socket.on('scoreResult', function(star){
     console.log("You got " + star);
 });
 
-// TRANSFER
-TRANSCEIVER.enterGame = function(){
-    id = this.util.getMongoId();
-    socket.emit("enterGame",id);
-};
-
-TRANSCEIVER.sendScore = function(score){
-    console.log("send score");
-    var user = $.cookie("user_id");
-    socket.emit("sendScore", {score:score, userId:user});
-};
-
-TRANSCEIVER.util = {};
-TRANSCEIVER.util.getMongoId = function(){
-    id = location.href.split("/").pop();
-    end = id.indexOf("?");
-    if(end > 0) {id = id.substr(0,end);}
-    return id;
+// TRANSMITTER
+TRANSMITTER = {
+    enterGame: function(){
+        userId = $.cookie("user_id");
+        gameId = this.util.getMongoId();
+        socket.emit("enterGame",{gameId:gameId,userId:userId});
+    },
+    sendScore: function(score){
+        console.log("send score");
+        var userId = $.cookie("user_id");
+        socket.emit("sendScore", {score:score, userId:userId});
+    },
+    util:{
+        getMongoId: function(){
+            id = location.href.split("/").pop();
+            end = id.indexOf("?");
+            if(end > 0) {id = id.substr(0,end);}
+            return id;
+        }
+    }
 };

@@ -10,6 +10,8 @@
             th Title
             th Type
             th Owner
+            th 作成日
+            th
         tbody
           - games.forEach(function (game){
             tr
@@ -18,6 +20,7 @@
                   != link_to(game.title, path_to.game(game))
               td= game.type
               td= game.ownerName
+              td= date_format(game.createdAt)
               td
                 != link_to('<i class="icon-remove icon-white"></i>Delete', path_to.game(game), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'})
           - })

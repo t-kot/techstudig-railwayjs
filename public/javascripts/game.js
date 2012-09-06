@@ -161,7 +161,7 @@ function finishTitle () {
 };
 
 function initializeMain() {
-    TRANSCEIVER.enterGame();
+    TRANSMITTER.enterGame();
     console.log("Initialize Main");
     // create background data
     for (var i = 0; i < 2; i += 1) {
@@ -241,8 +241,8 @@ function updateMain () {
         }
     }
 
-    if((this._frameTimer % 1200) == 0){
-        TRANSCEIVER.sendScore(GetGameParam.prototype.SCORE_LAP);
+    if((this._frameTimer % 400) == 0){
+        TRANSMITTER.sendScore(GetGameParam.prototype.SCORE_LAP);
         console.log("Submit Score lap"+GetGameParam.prototype.SCORE_LAP);
         GetGameParam.prototype.SCORE_LAP = 0;
     }

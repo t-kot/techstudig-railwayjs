@@ -3,37 +3,48 @@ app.io = require('socket.io').listen(app)
 app.io.sockets.on 'connection', (socket)->
 
 
-  socket.on "enterGame",(gameId)->
-    scores[gameId] = scores[gameId] || []
+  socket.on "enterGame",(data)->
+    gameId = data.gameId
+    userId = data.userId
+    console.log gameId+"GAME ID===="
+    console.log userId+"USER ID===="
+    console.log scores[gameId]+"=========="
+    scores[gameId] =  {} unless scores[gameId]?
+    console.log scores[gameId]+"=========="
+    console.log scores[gameId][userId]+"+=+=+=+=+=="
+    scores[gameId][userId] = [] unless scores[gameId][userId]?
+    console.log scores[gameId][userId]+"+=+=+=+=+=="
     socket.join gameId
     socket.set 'gameId', gameId
-    console.log "scores is "+scores[gameId]
-    scores[gameId].push 50
+    socket.set 'userId', userId
+    scores[gameId][userId].push 50
     count = app.io.sockets.clients(gameId).length
     app.io.sockets.in(gameId).emit "userIn",count
 
-  socket.on "sendScore", (msg)->
-    User.find msg.userId, (err,user)->
-      if err
-        console.log err
-      else
-        #star = calculateStar(msg.score, scores, count)
-        socket.get 'gameId',(err,gameId)->
-          if err
-            console.log err
-          else
-            scores[gameId].push msg.score
-            console.log scores[gameId]
-            star = 1
-            app.io.sockets.emit 'scoreResult',star
-            user.star += star
-            user.save()
+  socket.on "sendScore", (data)->
+    score = data.score
+    userId = data.userId
+    User.find userId, (err,user)->
+      console.log err if err
+      #star = calculateStar(msg.score, scores, count)
+      socket.get 'gameId',(err,gameId)->
+        console.log err if err
+        scores[gameId][userId].push score
+        console.log scores[gameId][userId]
+        star = 1
+        app.io.sockets.emit 'scoreResult',star
+        user.star += star
+        user.save()
 
   socket.on "disconnect", ->
     socket.get 'gameId',(err,gameId)->
-      socket.leave(gameId)
-      count = app.io.sockets.clients(gameId).length
-      app.io.sockets.in(gameId).emit('userOut',count)
+      console.log err if err
+      socket.get 'userId',(err,userId)->
+        console.log err if err
+        delete scores[gameId][userId]
+        socket.leave(gameId)
+        count = app.io.sockets.clients(gameId).length
+        app.io.sockets.in(gameId).emit('userOut',count)
 
 
 
