@@ -6,14 +6,8 @@ app.io.sockets.on 'connection', (socket)->
   socket.on "enterGame",(data)->
     gameId = data.gameId
     userId = data.userId
-    console.log gameId+"GAME ID===="
-    console.log userId+"USER ID===="
-    console.log scores[gameId]+"=========="
     scores[gameId] =  {} unless scores[gameId]?
-    console.log scores[gameId]+"=========="
-    console.log scores[gameId][userId]+"+=+=+=+=+=="
     scores[gameId][userId] = [] unless scores[gameId][userId]?
-    console.log scores[gameId][userId]+"+=+=+=+=+=="
     socket.join gameId
     socket.set 'gameId', gameId
     socket.set 'userId', userId
@@ -39,8 +33,10 @@ app.io.sockets.on 'connection', (socket)->
   socket.on "disconnect", ->
     socket.get 'gameId',(err,gameId)->
       console.log err if err
+      return unless gameId?
       socket.get 'userId',(err,userId)->
         console.log err if err
+        return unless userId?
         delete scores[gameId][userId]
         socket.leave(gameId)
         count = app.io.sockets.clients(gameId).length
