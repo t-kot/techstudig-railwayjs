@@ -4,7 +4,7 @@ before use('checkValidateUser'), {only: ['edit','update','destroy'] }
 before 'load user', ->
   User.find params.id, (err, user) =>
     if err
-      redirect path_to.users()
+      redirect path_to.root()
     else
       @user = user
       next()
@@ -29,7 +29,7 @@ action 'create', ->
     else
       flash 'info', 'Welcome! Account is successfully created!'
       response.cookie 'user_id',user.id
-      redirect path_to.users()
+      redirect path_to.root()
 
 action 'index', ->
   User.all (err, users) =>
@@ -62,7 +62,7 @@ action 'destroy', ->
       flash 'error', 'Can not destroy user'
     else
       flash 'info', 'User successfully removed'
-      send "'" + path_to.users() + "'"
+      send "'" + path_to.root() + "'"
 
 uploadPhoto= ->
   if(req.files)

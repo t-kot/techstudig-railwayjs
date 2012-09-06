@@ -38,9 +38,8 @@ html
                       != link_to("View Profile",path_to.user(current_user))
                     li
                       != link_to("Edit Profile",path_to.edit_user(current_user))
-
-                li
-                  != link_to("Logout",'/logout')
+                    li
+                      != link_to("Logout",'/logout')
               -}else {
                 li
                   != link_to("Login",path_to.new_session())
