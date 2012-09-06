@@ -22,7 +22,9 @@
               td= game.ownerName
               td= date_format(game.createdAt)
               td
-                != link_to('<i class="icon-remove icon-white"></i>Delete', path_to.game(game), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'})
+                - if (game.ownerId == current_user.id){
+                  != link_to('<i class="icon-remove icon-white"></i>Delete', path_to.game(game), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'})
+                - }
           - })
     -} else {
       p.alert.alert-block.alert-info
