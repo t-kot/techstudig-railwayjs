@@ -1,4 +1,17 @@
 scores = {}
+scores.calculateRanking = (gameId,userId)->
+  allPlayerScores = this[gameId]
+  console.log "all player scores is"+allPlayerScores
+  theUserScores = this[gameId][userId]
+  console.log "the user scores is"+theUserScores
+  console.log theUserScores
+  ranking = 1
+  for key ,thePlayerScores of allPlayerScores
+    ranking++ if thePlayerScores[thePlayerScores.length-1] > theUserScores[theUserScores.length-1]
+    console.log "thePlayerScore is"+thePlayerScores[thePlayerScores.length-1]
+    console.log "theUserScore is"+theUserScores[theUserScores.length-1]
+  return ranking
+
 app.io = require('socket.io').listen(app)
 app.io.sockets.on 'connection', (socket)->
 
@@ -20,13 +33,13 @@ app.io.sockets.on 'connection', (socket)->
     userId = data.userId
     User.find userId, (err,user)->
       console.log err if err
-      #star = calculateStar(msg.score, scores, count)
       socket.get 'gameId',(err,gameId)->
         console.log err if err
         scores[gameId][userId].push score
-        console.log scores[gameId][userId]
+        ranking = scores.calculateRanking gameId,userId
         star = 1
         app.io.sockets.emit 'scoreResult',star
+        socket.emit 'lapScoreRanking', ranking
         user.star += star
         user.save()
 

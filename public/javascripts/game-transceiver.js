@@ -17,6 +17,9 @@ socket.on("userOut",function(data){
 socket.on('scoreResult', function(star){
     console.log("You got " + star);
 });
+socket.on('lapScoreRanking', function(ranking){
+    console.log("Your score is " + ranking + "place for this term");
+});
 
 // TRANSMITTER
 TRANSMITTER = {
