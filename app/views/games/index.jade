@@ -9,6 +9,7 @@
           tr
             th Title
             th Type
+            th Mode
             th Owner
             th 作成日
             th
@@ -18,7 +19,8 @@
               td
                 strong
                   != link_to(game.title, path_to.game(game))
-              td= game.type
+              td= displayType(game.type)
+              td= displayMode(game.mode)
               td= game.ownerName
               td= date_format(game.createdAt)
               td

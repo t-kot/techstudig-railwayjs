@@ -5,6 +5,10 @@ var socket = io.connect("/");
 socket.on("connection", function(msg){
     console.log("connection receive!");
 });
+socket.on("userStatus", function(data){
+    console.log("You have "+data.star+" stars now");
+    console.log("Welcome "+data.name+"!");
+});
 socket.on("userIn",function(data){
     console.log("Now playing is "+data);
     GetGameParam.prototype.NOW_PLAYING = data;

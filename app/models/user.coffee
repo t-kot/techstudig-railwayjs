@@ -6,3 +6,4 @@ User.authenticate =(name,password,callback)->
 
 User.validatesPresenceOf 'name', 'password'
 User.validatesUniquenessOf 'name', {message: 'User name is not unique'}
+

@@ -17,5 +17,6 @@ Game = describe 'Game', () ->
     property 'ownerId',String
     property 'ownerName', String
     property 'title', String
-    property 'type', Number
+    property 'type', Number, default: 1
     property 'createdAt', Date, default: Date()
+    property 'mode', Number, default: 1
