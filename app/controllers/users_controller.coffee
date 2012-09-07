@@ -1,3 +1,5 @@
+#formidable = require('formidable')
+util = require('util')
 load 'application'
 before use('checkValidateUser'), {only: ['edit','update','destroy'] }
 
@@ -46,7 +48,7 @@ action 'edit', ->
   render()
 
 action 'update', ->
-  uploadPhoto()
+  #uploadPhoto()
   @user.updateAttributes body.User, (err) =>
     if !err
       flash 'info', 'User updated'
@@ -66,8 +68,15 @@ action 'destroy', ->
 
 uploadPhoto= ->
   if(req.files)
-    path = req.files.User.image.path
-    split_path = path.split("/")
-    new_path = "/"+split_path[1]+"/"+split_path[2]
-    body.User['image'] = new_path
-    console.log new_path
+    #console.log req.files.User.image.name
+    console.log req.files.User.image.path
+    console.log app.root
+    ins = fs.createReadStream(req.files.User.image.path)
+    ous = fs.createWriteStream(app.root+'/public/uploads/'+req.files.User.image.name)
+    #console.log req.files
+    #path = req.files.User.image.path
+    ##console.log User.image
+    #console.log User.image.filename
+    #split_path = path.split("/")
+    #new_path = "/"+split_path[1]+"/"+split_path[2]
+    #body.User['image'] = User.image.name

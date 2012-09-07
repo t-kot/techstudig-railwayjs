@@ -18,6 +18,7 @@
   , "coffee-script":    ">= 1.1.1"
   , "memcache":         "*"
   , "moment":           "*"
+  , "formidable":       "*"
   },
   "devDependencies":
   { "nodeunit":         "*"

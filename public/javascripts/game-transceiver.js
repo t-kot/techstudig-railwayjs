@@ -1,5 +1,10 @@
 var host = location.href;
 var socket = io.connect("/");
+var NEWSTYPE = {
+    excellentScore:1,
+    jackpot:2,
+    connectingNum:3
+};
 
 // RECEIVER
 socket.on("connection", function(msg){
@@ -18,9 +23,25 @@ socket.on("userOut",function(data){
     GetGameParam.prototype.NOW_PLAYING = data;
 });
 
-socket.on('scoreResult', function(data){
-    console.log("You got " + data.star);
-    console.log("Your score is " + data.ranking + "place for this term");
+socket.on('scoreResult', function(ranking){
+    console.log("Your score is " + ranking + "place for this term");
+});
+socket.on('starResult', function(star){
+    console.log("You got " + star);
+});
+socket.on('news', function(news){
+    console.log("news!!!!!!!!!");
+    switch(news.type){
+        case NEWSTYPE.excellentScore:
+            console.log("excellent score!");
+            break;
+        case NEWSTYPE.jackpot:
+            console.log("jackpot!");
+            break;
+        case NEWSTYPE.connectingNum:
+            console.log("connecting num!");
+            break;
+    }
 });
 
 // TRANSMITTER
