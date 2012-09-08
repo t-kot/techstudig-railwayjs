@@ -1,0 +1,19 @@
+.input
+  != form.input("ownerId",{type:"hidden"})
+.input
+  != form.input("ownerName",{type:"hidden"})
+.clearfix
+  != form.label("title")
+  .input
+    != form.input("title")
+.clearfix
+  != form.label("type")
+  select(name='Game[type]')
+    option(value=1) 1000人耐久モード
+    option(value=2) サバイバル
+.clearfix
+  != form.label("mode")
+  select(name='Game[mode]')
+    option(value=1) 楽しくわいわい
+    option(value=2) ガンガン賭ける
+    option(value=3) ノーレート

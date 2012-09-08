@@ -20,6 +20,7 @@ requireAuthenticate= ()->
     next()
 publish('requireAuthenticate', requireAuthenticate)
 
+
 checkValidateUser= ()->
   if @current_user == null || @current_user.id != params.id
     redirect path_to.root()

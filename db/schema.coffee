@@ -4,6 +4,7 @@ User = define 'User', ->
    property 'createdAt', Date, default: Date()
    property 'image', String
    property 'star', Number, default: 10
+   property 'type', Number, default: 1
 
 Post = describe 'Post', () ->
     property 'userId', String

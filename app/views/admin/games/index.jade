@@ -1,0 +1,36 @@
+.page-header
+  h1 Index of games
+
+.row
+  .span12
+    - if (games.length > 0) {
+      table.table.table-striped
+        thead
+          tr
+            th Title
+            th Type
+            th Mode
+            th Owner
+            th 作成日
+            th
+        tbody
+          - games.forEach(function (game){
+            tr
+              td
+                strong
+                  != link_to(game.title, path_to.admin_game(game))
+              td= displayType(game.type)
+              td= displayMode(game.mode)
+              td= game.ownerName
+              td= date_format(game.createdAt)
+              td
+                != link_to('<i class="icon-remove icon-white"></i>Delete', path_to.admin_game(game), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'})
+          - })
+    -} else {
+      p.alert.alert-block.alert-info
+        strong No games were found.
+    - }
+hr
+
+.well
+  != link_to('New game', path_to.new_admin_game(), {class: 'btn'})
