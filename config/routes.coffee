@@ -1,5 +1,5 @@
 exports.routes = (map)->
-  map.resources 'games',{except: ['edit']}
+  map.resources 'games',{except: ['edit','update']}
   map.resources 'rooms'
   map.root 'home#index'
   map.get('logout','sessions#logout')

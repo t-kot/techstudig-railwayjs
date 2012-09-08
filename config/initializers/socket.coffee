@@ -8,6 +8,7 @@ NEWSTYPE = {
   jackpot:2,
   connectingNum:3
 }
+jackpot = {}
 scores = {}
 scores.calculateStar = (data)->
   #例えば6人のときだと
@@ -49,11 +50,13 @@ app.io.sockets.on 'connection', (socket)->
     Game.find gameId,(err,game)->
       console.log err if err
       scores[gameId] =  {} unless scores[gameId]?
+      jackpot[gameId] =  100 unless jackpot[gameId]?
+      jackpot[gameId] += 10
       socket.join gameId
       socket.set 'gameId', gameId
       socket.set 'gameMode',game.mode
       console.log game.mode+"GAME MODE"
-      app.io.sockets.in(gameId).emit "userIn",connecting(gameId)
+      app.io.sockets.in(gameId).emit "userIn",{connect:connecting(gameId),jackpot:jackpot[gameId]}
       User.find userId,(err,user)->
         console.log err+"user find err"  if err
         scores[gameId][userId] = [] unless scores[gameId][userId]?
@@ -68,7 +71,7 @@ app.io.sockets.on 'connection', (socket)->
       console.log err+"user find err" if err
       socket.get 'gameId',(err,gameId)->
         if score > 150
-          app.io.sockets.in(gameId).emit "news",{type:NEWSTYPE["excellentScore"],data:{score:score}}
+          app.io.sockets.in(gameId).emit "news",{type:NEWSTYPE["excellentScore"],data:{score:score,user:user.name}}
         console.log err+"game get error" if err
         scores[gameId][userId].push score
         ranking = scores.calculateRanking gameId,userId
@@ -91,4 +94,3 @@ app.io.sockets.on 'connection', (socket)->
         delete scores[gameId][userId]
         socket.leave(gameId)
         app.io.sockets.in(gameId).emit 'userOut',connecting(gameId)
-

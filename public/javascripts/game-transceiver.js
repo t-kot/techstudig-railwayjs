@@ -15,8 +15,10 @@ socket.on("userStatus", function(data){
     console.log("Welcome "+data.name+"!");
 });
 socket.on("userIn",function(data){
-    console.log("Now playing is "+data);
-    GetGameParam.prototype.NOW_PLAYING = data;
+    console.log("Now playing is "+data.connect);
+    GetGameParam.prototype.NOW_PLAYING = data.connect;
+    console.log("Now jackpot is "+data.jackpot);
+    GetGameParam.prototype.JACKPOT = data.jackpot;
 });
 socket.on("userOut",function(data){
     console.log("Now playing is "+data);
@@ -33,7 +35,7 @@ socket.on('news', function(news){
     console.log("news!!!!!!!!!");
     switch(news.type){
         case NEWSTYPE.excellentScore:
-            console.log("excellent score!");
+            console.log("excellent score! "+news.data.user+" got "+news.data.score+" score!");
             break;
         case NEWSTYPE.jackpot:
             console.log("jackpot!");
