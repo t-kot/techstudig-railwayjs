@@ -1,3 +1,5 @@
+Game.validatesPresenceOf 'title', 'password'
+Game.validatesUniquenessOf 'title', {message: 'User name is not unique'}
 Game.belongsTo User, {as: "owner", foreignKey: "ownerId"}
 Game.typeFormatJa = {
   1:"1000人耐久モード",
