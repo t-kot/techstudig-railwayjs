@@ -11,8 +11,3 @@
   .input
     //input(type='file',name='User[image]')
     != form.input('image', {type: 'file'})
-.clearfix
-  != form.label("type")
-  select(name='User[type]')
-    option(value=1) 一般ユーザ
-    option(value=2) 管理者

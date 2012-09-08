@@ -4,6 +4,7 @@ User = define 'User', ->
    property 'createdAt', Date, default: Date()
    property 'image', String
    property 'star', Number, default: 10
+   property 'type', Number, default: 1
 
 Post = describe 'Post', () ->
     property 'userId', String
@@ -17,5 +18,6 @@ Game = describe 'Game', () ->
     property 'ownerId',String
     property 'ownerName', String
     property 'title', String
-    property 'type', Number
+    property 'type', Number, default: 1
     property 'createdAt', Date, default: Date()
+    property 'mode', Number, default: 1

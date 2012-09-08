@@ -17,4 +17,5 @@ log/*.log
 coverage.html
 .settings
 doc
-
+public/uploads
+.memo

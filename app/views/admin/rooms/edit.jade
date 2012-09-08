@@ -1,0 +1,10 @@
+.page-header
+  h1 Edit room
+
+- form_for(room, {action: path_to.admin_room(room), method: 'PUT', id: "room_form"}, function (form) {
+  != partial('rooms/form.jade', {locals: {form: form, room: room}})
+  .actions
+    != form.submit('Update room', {class: 'btn primary'})
+    span= ' or '
+    != link_to('Cancel', path_to.admin_room(room), {class: 'btn'})
+- });

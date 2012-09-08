@@ -1,0 +1,23 @@
+script(type='text/javascript',src='/socket.io/socket.io.js')
+!= javascript_include_tag('chat')
+.page-header
+  h1 Details of room
+  .message_area
+    #connectId
+    #type
+    br
+    input(type='text', id='message', value='')
+    input(type='button', value='Submit Message', onclick="sendMsg()")
+    input(type='button', value='Disconnect', onclick="disConnect()")
+
+    #receiveMsg
+
+div(about=path_to.admin_room(room))
+  .field(property='userId')= room.userId
+  .field(property='createdAt')= room.createdAt
+
+.actions
+  != link_to('Edit', path_to.edit_admin_room(room), {class: 'btn primary'}) + ' '
+  != link_to('Delete', path_to.admin_room(room), {class: 'btn danger', method: 'delete', remote: true, jsonp: '(function (u) { location.href = u; })'})
+  span= ' or '
+  != link_to('Back to index', path_to.admin_rooms())

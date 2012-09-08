@@ -18,15 +18,13 @@
             tr
               td
                 strong
-                  != link_to(game.title, path_to.game(game))
+                  != link_to(game.title, path_to.admin_game(game))
               td= displayType(game.type)
               td= displayMode(game.mode)
               td= game.ownerName
               td= date_format(game.createdAt)
               td
-                - if (game.ownerId == current_user.id){
-                  != link_to('<i class="icon-remove icon-white"></i>Delete', path_to.game(game), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'})
-                - }
+                != link_to('<i class="icon-remove icon-white"></i>Delete', path_to.admin_game(game), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'})
           - })
     -} else {
       p.alert.alert-block.alert-info
@@ -35,4 +33,4 @@
 hr
 
 .well
-  != link_to('New game', path_to.new_game(), {class: 'btn'})
+  != link_to('New game', path_to.new_admin_game(), {class: 'btn'})
