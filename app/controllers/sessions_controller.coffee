@@ -1,4 +1,5 @@
 load 'application'
+before use('requireAuthenticate'),{only: ['logout']}
 
 action 'new', ->
   @title = "NEW session"
