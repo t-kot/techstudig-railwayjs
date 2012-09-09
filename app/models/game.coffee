@@ -1,4 +1,4 @@
-Game.validatesPresenceOf 'title', 'password'
+Game.validatesPresenceOf 'title'
 Game.validatesUniquenessOf 'title', {message: 'User name is not unique'}
 Game.belongsTo User, {as: "owner", foreignKey: "ownerId"}
 Game.typeFormatJa = {

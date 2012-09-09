@@ -9,11 +9,12 @@
 .clearfix
   != form.label("type")
   select(name='Game[type]')
-    option(value=1) 1000人耐久モード
-    option(value=2) サバイバル
+    - for(var i=1; i<3; i++){
+      option(value=i)= displayType(i)
+    - }
 .clearfix
   != form.label("mode")
   select(name='Game[mode]')
-    option(value=1) 楽しくわいわい
-    option(value=2) ガンガン賭ける
-    option(value=3) ノーレート
+    - for(var i=1; i<4; i++){
+      option(value=i)= displayMode(i)
+    - }
