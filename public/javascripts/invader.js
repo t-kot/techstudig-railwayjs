@@ -744,7 +744,7 @@ Vector2.prototype.fromPitchYaw = function (ele, dir) {
     });
 
     window.addEventListener('DOMContentLoaded', function (event) {
-        system = new arc.System(300, 500, "canvas");
+        system = new arc.System(320, 480, "canvas");
         system.setGameClass(GameApp);
         system.load(["/images/invader/player.png", "/images/invader/enemy01.png", "/images/invader/enemy02.png", "/images/invader/enemy03.png", "/images/invader/enemy04.png", "/images/invader/particle.png", "/images/invader/bg.png", "/images/invader/title.png", "/images/invader/over.png", "/images/invader/clear.png", "/images/invader/life.png", "/images/invader/life_frame.png"]);
     }, false);

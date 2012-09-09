@@ -11,3 +11,9 @@
   .input
     //input(type='file',name='User[image]')
     != form.input('image', {type: 'file'})
+.clearfix
+  != form.label("type")
+  select(name='User[type]')
+    - for(var i=1; i<3; i++){
+      option(value=i)= displayUserType(i)
+    - }

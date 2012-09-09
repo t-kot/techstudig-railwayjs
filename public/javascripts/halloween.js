@@ -33,7 +33,7 @@ function randInt(min, max) {
 
 function collisionCircle(circle1, circle2, r1, r2) {
     return ((Math.pow(circle1.x - circle2.x, 2) +
-		   	 Math.pow(circle1.y - circle2.y, 2)) < Math.pow((r1 + r2), 2));
+             Math.pow(circle1.y - circle2.y, 2)) < Math.pow((r1 + r2), 2));
 };
 
 function decToHex(d) {
@@ -52,13 +52,13 @@ function decToHex(d) {
 
 function List() {
     this._head = null,
-	this._length = 0
+    this._length = 0
 }
 
 List.prototype = {
     add: function (data) {
         var node = { data: data, next: null },
-		    current;
+            current;
 
         if (this._head === null) {
             this._head = node;
@@ -77,7 +77,7 @@ List.prototype = {
     item: function (index) {
         if (index > -1 && index < this._length) {
             var current = this._head,
-				i = 0;
+                i = 0;
             while (i < index) {
                 i += 1;
                 current = current.next;
@@ -91,8 +91,8 @@ List.prototype = {
     remove: function (index) {
         if (index > -1 && index < this._length) {
             var current = this._head,
-				prev,
-				i = 0;
+                prev,
+                i = 0;
 
             if (index === 0) {
                 this._head = current.next;
@@ -389,38 +389,38 @@ function ParticleManager() {
 
 function ObjectBase(texture_path) {
     this._position = new Vector2(0, 0),
-	this._velocity = 0,
-	this._angle = 0,
+    this._velocity = 0,
+    this._angle = 0,
     this._radius = 10,
-	this._texture = new arc.display.Sprite(GameCtrl.prototype.GAME_SYSTEM.getImage(texture_path)),
-	this._isDead = false,
+    this._texture = new arc.display.Sprite(GameCtrl.prototype.GAME_SYSTEM.getImage(texture_path)),
+    this._isDead = false,
     this._animation = null,
     this._particleManager = new ParticleManager(),
     this._color = 1.0,
     this._isColor = false,
 
-	this.initialize = function (position) {
-	    this._position.x = position.x;
-	    this._position.y = position.y;
-	    this._texture.setX(position.x);
-	    this._texture.setY(position.y);
-	    this._velocity = rand(2.0, 10.0);
-	    this._angle = rand(0.0, 100.0);
-	    GameCtrl.prototype.GAME_HANDLER.addChild(this._texture);
-	},
+    this.initialize = function (position) {
+        this._position.x = position.x;
+        this._position.y = position.y;
+        this._texture.setX(position.x);
+        this._texture.setY(position.y);
+        this._velocity = rand(2.0, 10.0);
+        this._angle = rand(0.0, 100.0);
+        GameCtrl.prototype.GAME_HANDLER.addChild(this._texture);
+    },
 
-	this.update = function () {
-	    this._position.x = MouseCtrl.prototype.x - 12;
-	    this._position.y = MouseCtrl.prototype.y - 35;
-	    this._position.x = Math.max(Math.min(this._position.x, 260), 0);
-	    this._position.y = Math.max(Math.min(this._position.y, 410), 0);
-	    this._texture.setX(this._position.x);
-	    this._texture.setY(this._position.y);
+    this.update = function () {
+        this._position.x = MouseCtrl.prototype.x - 12;
+        this._position.y = MouseCtrl.prototype.y - 35;
+        this._position.x = Math.max(Math.min(this._position.x, 260), 0);
+        this._position.y = Math.max(Math.min(this._position.y, 410), 0);
+        this._texture.setX(this._position.x);
+        this._texture.setY(this._position.y);
 
-	    if (GameCtrl.prototype.BOSS_FLAG) {
-	        this._radius = 5;
-	    }
-	},
+        if (GameCtrl.prototype.BOSS_FLAG) {
+            this._radius = 5;
+        }
+    },
 
     this.damageEffect = function (texName) {
         for (var i = 0; i < 12; i += 1) {
@@ -434,44 +434,44 @@ function ObjectBase(texture_path) {
     },
 
     // player vs other
-	this.collisionDetection = function (other) {
-	    // player vs boss
-	    if (GameCtrl.prototype.BOSS_FLAG) {
-	        if (collisionCircle(this._position, new Vector2(other._position.x + 20, other._position.y + 10), this._radius, other._radius)) {
-	            this.damageEffect("/images/halloween/effect03.png");
-	            GameCtrl.prototype.SCORE -= 50;
-	            GameCtrl.prototype.SCORE = Math.max(0, GameCtrl.prototype.SCORE);
-	        }
-	        return false;
-	    }
+    this.collisionDetection = function (other) {
+        // player vs boss
+        if (GameCtrl.prototype.BOSS_FLAG) {
+            if (collisionCircle(this._position, new Vector2(other._position.x + 20, other._position.y + 10), this._radius, other._radius)) {
+                this.damageEffect("/images/halloween/effect03.png");
+                GameCtrl.prototype.SCORE -= 50;
+                GameCtrl.prototype.SCORE = Math.max(0, GameCtrl.prototype.SCORE);
+            }
+            return false;
+        }
 
-	    // player vs enemy
-	    if (collisionCircle(new Vector2(this._position.x + 2, this._position.y), other._position, this._radius, other._radius)) {
-	        this.damageEffect("/images/halloween/effect03.png");
-	        GameCtrl.prototype.SCORE -= 50;
-	        GameCtrl.prototype.SCORE = Math.max(0, GameCtrl.prototype.SCORE);
-	        //this.remove();
-	        other.remove();
-	        //return true;
-	    }
-	    return false;
-	},
+        // player vs enemy
+        if (collisionCircle(new Vector2(this._position.x + 2, this._position.y), other._position, this._radius, other._radius)) {
+            this.damageEffect("/images/halloween/effect03.png");
+            GameCtrl.prototype.SCORE -= 50;
+            GameCtrl.prototype.SCORE = Math.max(0, GameCtrl.prototype.SCORE);
+            //this.remove();
+            other.remove();
+            //return true;
+        }
+        return false;
+    },
 
     // bullet vs enemy
-	this.collisionBullet = function (container) {
-	    for (var i = 0; i < container.getLength(); ) {
-	        if (collisionCircle(this._position, container.item(i)._position, this._radius + 5, container.item(i)._radius)) {
-	            this.remove();
-	            container.item(i).remove();
-	            container.remove(i);
-	            this.damageEffect("/images/halloween/effect02.png");
-	            return true;
-	        } else {
-	            i += 1;
-	        }
-	    }
-	    return false;
-	},
+    this.collisionBullet = function (container) {
+        for (var i = 0; i < container.getLength(); ) {
+            if (collisionCircle(this._position, container.item(i)._position, this._radius + 5, container.item(i)._radius)) {
+                this.remove();
+                container.item(i).remove();
+                container.remove(i);
+                this.damageEffect("/images/halloween/effect02.png");
+                return true;
+            } else {
+                i += 1;
+            }
+        }
+        return false;
+    },
 
     // boss particle vs player
     this.collisionParticle = function (container) {
@@ -484,10 +484,10 @@ function ObjectBase(texture_path) {
         }
     },
 
-	this.remove = function () {
-	    this._isDead = true;
-	    GameCtrl.prototype.GAME_HANDLER.removeChild(this._texture);
-	},
+    this.remove = function () {
+        this._isDead = true;
+        GameCtrl.prototype.GAME_HANDLER.removeChild(this._texture);
+    },
 
     this.setAnimation = function () {
         this._position = new Vector2(105, -110);
@@ -749,108 +749,108 @@ ObjectFactory.create = function (type, imagename) {
 
 function ObjectManager() {
     this._container = new List(),
-	this._bulletContainer = new List(),
+    this._bulletContainer = new List(),
     this._itemContainer = new List(),
 
-	this.push = function (object) {
-	    this._container.add(object);
-	},
+    this.push = function (object) {
+        this._container.add(object);
+    },
 
-	this.pushBullet = function (bullet) {
-	    this._bulletContainer.add(bullet);
-	},
+    this.pushBullet = function (bullet) {
+        this._bulletContainer.add(bullet);
+    },
 
     this.pushItem = function (item) {
         this._itemContainer.add(item);
     },
 
-	this.update = function () {
-	    this.updateContainer();
-	    this.removeContainer();
-	    this.collisionDetection();
-	},
+    this.update = function () {
+        this.updateContainer();
+        this.removeContainer();
+        this.collisionDetection();
+    },
 
-	this.finish = function () {
-	    for (var i = 0; i < this._container.getLength(); ) {
-	        this._container.item(i).remove();
-	        this._container.remove(i);
-	    }
+    this.finish = function () {
+        for (var i = 0; i < this._container.getLength(); ) {
+            this._container.item(i).remove();
+            this._container.remove(i);
+        }
 
-	    for (var i = 0; i < this._bulletContainer.getLength(); ) {
-	        this._bulletContainer.item(i).remove();
-	        this._bulletContainer.remove(i);
-	    }
-	},
+        for (var i = 0; i < this._bulletContainer.getLength(); ) {
+            this._bulletContainer.item(i).remove();
+            this._bulletContainer.remove(i);
+        }
+    },
 
-	this.updateContainer = function () {
-	    for (var i = 0, size = this._container.getLength(); i < size; i += 1) {
-	        this._container.item(i).update(this._container.item(0)._position);
-	    }
+    this.updateContainer = function () {
+        for (var i = 0, size = this._container.getLength(); i < size; i += 1) {
+            this._container.item(i).update(this._container.item(0)._position);
+        }
 
-	    for (var i = 0, size = this._bulletContainer.getLength(); i < size; i += 1) {
-	        this._bulletContainer.item(i).update();
-	    }
+        for (var i = 0, size = this._bulletContainer.getLength(); i < size; i += 1) {
+            this._bulletContainer.item(i).update();
+        }
 
-	    for (var i = 0, size = this._itemContainer.getLength(); i < size; i += 1) {
-	        this._itemContainer.item(i).update();
-	    }
-	},
+        for (var i = 0, size = this._itemContainer.getLength(); i < size; i += 1) {
+            this._itemContainer.item(i).update();
+        }
+    },
 
-	this.removeContainer = function () {
-	    for (var i = 0; i < this._container.getLength(); ) {
-	        if (this._container.item(i)._isDead) {
-	            this._container.remove(i);
-	        } else {
-	            i += 1;
-	        }
-	    }
+    this.removeContainer = function () {
+        for (var i = 0; i < this._container.getLength(); ) {
+            if (this._container.item(i)._isDead) {
+                this._container.remove(i);
+            } else {
+                i += 1;
+            }
+        }
 
-	    for (var i = 0; i < this._bulletContainer.getLength(); ) {
-	        if (this._bulletContainer.item(i)._isDead) {
-	            this._bulletContainer.remove(i);
-	        } else {
-	            i += 1;
-	        }
-	    }
-	},
+        for (var i = 0; i < this._bulletContainer.getLength(); ) {
+            if (this._bulletContainer.item(i)._isDead) {
+                this._bulletContainer.remove(i);
+            } else {
+                i += 1;
+            }
+        }
+    },
 
-	this.collisionDetection = function () {
-	    // bullet vs enemy
-	    for (var i = 1; i < this._container.getLength(); ) {
-	        if (this._container.item(i).collisionBullet(this._bulletContainer)) {
-	            this._container.remove(i);
-	            GameCtrl.prototype.SCORE += 10;
-	        } else {
-	            i += 1;
-	        }
-	    }
+    this.collisionDetection = function () {
+        // bullet vs enemy
+        for (var i = 1; i < this._container.getLength(); ) {
+            if (this._container.item(i).collisionBullet(this._bulletContainer)) {
+                this._container.remove(i);
+                GameCtrl.prototype.SCORE += 10;
+            } else {
+                i += 1;
+            }
+        }
 
-	    // enemy vs player
-	    for (var i = 1, size = this._container.getLength(); i < size; i += 1) {
-	        if (this._container.item(0).collisionDetection(this._container.item(i))) {
-	            GameCtrl.prototype.PLAYER_BREAK = true;
-	        }
+        // enemy vs player
+        for (var i = 1, size = this._container.getLength(); i < size; i += 1) {
+            if (this._container.item(0).collisionDetection(this._container.item(i))) {
+                GameCtrl.prototype.PLAYER_BREAK = true;
+            }
 
-	        if (GameCtrl.prototype.BOSS_FLAG) {
-	            this._container.item(0).collisionParticle(this._container.item(i)._particleManager.container);
-	        }
-	    }
+            if (GameCtrl.prototype.BOSS_FLAG) {
+                this._container.item(0).collisionParticle(this._container.item(i)._particleManager.container);
+            }
+        }
 
-	    // item vs player
-	    for (var i = 0; i < this._itemContainer.getLength(); ) {
-	        if (collisionCircle(this._container.item(0)._position, this._itemContainer.item(i)._position, 12, 12)) {
-	            this._itemContainer.item(i).remove();
-	            this._itemContainer.remove(i);
-	            if (GameCtrl.prototype.WITCH_ITEM) {
-	                GameCtrl.prototype.BULLET_MODE = 2;
-	            } else {
-	                GameCtrl.prototype.BULLET_MODE = 1;
-	            }
-	        } else {
-	            i += 1;
-	        }
-	    }
-	}
+        // item vs player
+        for (var i = 0; i < this._itemContainer.getLength(); ) {
+            if (collisionCircle(this._container.item(0)._position, this._itemContainer.item(i)._position, 12, 12)) {
+                this._itemContainer.item(i).remove();
+                this._itemContainer.remove(i);
+                if (GameCtrl.prototype.WITCH_ITEM) {
+                    GameCtrl.prototype.BULLET_MODE = 2;
+                } else {
+                    GameCtrl.prototype.BULLET_MODE = 1;
+                }
+            } else {
+                i += 1;
+            }
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -862,10 +862,10 @@ function ObjectManager() {
 function SceneBase() {
     this._objectManager = null,
     this._particleManager = null,
-	this._isNext = false,
- 	this._frameTimer = 0,
+    this._isNext = false,
+    this._frameTimer = 0,
     this._scroll = 0,
-	this._text = [],
+    this._text = [],
     this._texture = [],
     this._isFade = false,
     this._isFinish = false,
@@ -873,15 +873,15 @@ function SceneBase() {
     this._cnt = 1,
     this._infoScroll = 0,
 
-	this.initialize = function () { },
+    this.initialize = function () { },
 
-	this.update = function () { },
+    this.update = function () { },
 
-	this.finish = function () { },
+    this.finish = function () { },
 
-	this.isChange = function () {
-	    return this._isNext;
-	},
+    this.isChange = function () {
+        return this._isNext;
+    },
 
     this.fadeUpdate = function () {
         this._frameTimer += 0.0085;
@@ -1194,38 +1194,38 @@ var SCENE_TYPE = SCENE_TYPE || {};
 SCENE_TYPE.MAIN = 0;
 
 function SceneManager() {
-	this._main = new SceneBase(),
-	this._sceneContainer = [this._main],
-	this._current = SCENE_TYPE.MAIN,
+    this._main = new SceneBase(),
+    this._sceneContainer = [this._main],
+    this._current = SCENE_TYPE.MAIN,
 
-	this.initialize = function () {
-	    this.registerSceneData();
+    this.initialize = function () {
+        this.registerSceneData();
 
-	    this._sceneContainer[this._current].initialize();
-	},
+        this._sceneContainer[this._current].initialize();
+    },
 
-	this.update = function () {
-	    this._sceneContainer[this._current].update();
+    this.update = function () {
+        this._sceneContainer[this._current].update();
 
-	    ParticleCtrl.prototype.GENERATOR.update();
+        ParticleCtrl.prototype.GENERATOR.update();
 
         // 保留
-	    //this.changeScene();
-	},
+        //this.changeScene();
+    },
 
-	this.registerSceneData = function () {
-	    this._main.initialize = initializeMain;
-	    this._main.update = updateMain;
-	    this._main.finish = finishMain;
-	},
+    this.registerSceneData = function () {
+        this._main.initialize = initializeMain;
+        this._main.update = updateMain;
+        this._main.finish = finishMain;
+    },
 
-	this.changeScene = function () {
-	    if (this._sceneContainer[this._current].isChange()) {
-	        this._sceneContainer[this._current].finish();
-	        this._sceneContainer[this._current].initialize();
-	        return;
-	    }
-	}
+    this.changeScene = function () {
+        if (this._sceneContainer[this._current].isChange()) {
+            this._sceneContainer[this._current].finish();
+            this._sceneContainer[this._current].initialize();
+            return;
+        }
+    }
 }
 
 (function () {
