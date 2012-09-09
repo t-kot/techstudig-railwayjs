@@ -29,6 +29,8 @@ action 'create', ->
             redirect path_to.games()
 
 action 'index', ->
+    ua = req.headers['user-agent'].toLowerCase()
+    @mobile = isSmartPhone(ua)
     Game.all (err, games) =>
         @games = games
         @title = 'Games index'
@@ -38,7 +40,7 @@ count = 0
 scores = []
 action 'show', ->
   ua = req.headers['user-agent'].toLowerCase()
-  layout(false) if isSmartPhone(ua)
+  layout('mobile') if isSmartPhone(ua)
   @title = 'Game show'
   render()
 
