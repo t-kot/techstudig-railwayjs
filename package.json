@@ -17,6 +17,7 @@
   , "moment":           "*"
   , "formidable":       "*"
   , "less-middleware":  "*"
+  , "underscore":       "*"
   },
   "devDependencies":
   { "nodeunit":         "*"

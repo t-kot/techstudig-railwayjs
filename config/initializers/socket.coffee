@@ -1,3 +1,4 @@
+_ = require('underscore')._
 GAMEMODE = {
   relax:1,
   hardBet:2,
@@ -17,7 +18,7 @@ scores.calculateStar = (data)->
   #1位:3点,2位:2点,3位:1点,4位:0点,5位:-1点,6位:−2点,7位:−3点
   #がベーススコアで、これにgameModeによる倍率がかかる
   connect = data.connect
-  ranking = this.calculateRanking data.gameId,data.userId
+  ranking = @calculateRanking data.gameId,data.userId
   if connect%2==0
     baseScore =  connect/2+1-ranking if(ranking <= connect/2)
     baseScore =  connect/2-ranking if(connect/2 < ranking)
@@ -34,11 +35,11 @@ connecting=(gameId)->
 
 
 scores.calculateRanking = (gameId,userId)->
-  allPlayerScores = this[gameId]
-  theUserScores = this[gameId][userId]
+  allPlayerScores = @[gameId]
+  theUserScores = @[gameId][userId]
   ranking = 1
   for key,thePlayerScores of allPlayerScores
-    ranking++ if thePlayerScores[thePlayerScores.length-1] > theUserScores[theUserScores.length-1]
+    ranking++ if _(thePlayerScores).last() > _(theUserScores).last()
   return ranking
 
 app.io = require('socket.io').listen(app)
@@ -49,17 +50,17 @@ app.io.sockets.on 'connection', (socket)->
     userId = data.userId
     Game.find gameId,(err,game)->
       console.log err if err
-      scores[gameId] =  {} unless scores[gameId]?
-      jackpot[gameId] =  100 unless jackpot[gameId]?
+      scores[gameId] or=  {}
+      jackpot[gameId] or=  100
       jackpot[gameId] += 10
       socket.join gameId
       socket.set 'gameId', gameId
       socket.set 'gameMode',game.mode
-      console.log game.mode+"GAME MODE"
       app.io.sockets.in(gameId).emit "userIn",{connect:connecting(gameId),jackpot:jackpot[gameId]}
       User.find userId,(err,user)->
         console.log err+"user find err"  if err
-        scores[gameId][userId] = [] unless scores[gameId][userId]?
+        #scores[gameId][userId] = [] unless scores[gameId][userId]?
+        scores[gameId][userId] or= []
         scores[gameId][userId].push 50
         socket.set 'userId', userId
         socket.emit "userStatus",{name:user.name,star:user.star}
