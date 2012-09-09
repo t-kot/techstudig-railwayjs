@@ -4,11 +4,12 @@ var sinon  = require('sinon');
 
 function ValidAttributes () {
     return {
-        ownerId: '',
-        ownerName: '',
-        title: '',
-        type: '',
-        createdAt: ''
+        ownerId: '123abc',
+        ownerName: 'kotohata',
+        title: 'test title',
+        type: 1,
+        mode: 1,
+        createdAt: new Date()
     };
 }
 
@@ -30,21 +31,6 @@ exports['games controller'] = {
             test.done();
         });
     },
-
-    'GET edit': function (test) {
-        var find = Game.find;
-        Game.find = sinon.spy(function (id, callback) {
-            callback(null, new Game);
-        });
-        test.get('/games/42/edit', function () {
-            test.ok(Game.find.calledWith('42'));
-            Game.find = find;
-            test.success();
-            test.render('edit');
-            test.done();
-        });
-    },
-
     'GET show': function (test) {
         var find = Game.find;
         Game.find = sinon.spy(function (id, callback) {

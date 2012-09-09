@@ -18,7 +18,10 @@ action 'create', ->
       else
         response.cookie 'user_id',users[0].id
         flash 'info', 'Successfully login!'
-        redirect path_to.user(users[0])
+        if users[0].type is User.type.admin
+          redirect path_to.admin()
+        else
+          redirect path_to.games()
 
 
 #caution
