@@ -14,6 +14,14 @@ html
           .nav-collapse
             ul.nav
               li.dropdown
+                a.dropdown-toggle(data-toggle="dropdown") User Admin
+                  b.caret
+                ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                  li
+                    != link_to("Create User",path_to.new_admin_user())
+                  li
+                    != link_to("Users",path_to.admin_users())
+              li.dropdown
                 a.dropdown-toggle(data-toggle="dropdown") Game Admin
                   b.caret
                 ul.dropdown-menu(role='menu',aria-labelledby='drop1')
@@ -34,10 +42,6 @@ html
                 a.dropdown-toggle(data-toggle="dropdown")= current_user.name
                   b.caret
                 ul.dropdown-menu(role='menu',aria-labelledby='drop1')
-                  li
-                    != link_to("View Profile",path_to.admin_user(current_user))
-                  li
-                    != link_to("Edit Profile",path_to.edit_admin_user(current_user))
                   li
                     != link_to("Logout",'/logout')
     .container
