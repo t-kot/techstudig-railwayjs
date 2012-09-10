@@ -18,6 +18,8 @@ socket.ioを使用したリアルタイムシューティングゲーム。接�
 * Express    nodeJSのデファクトスタンダード的フレームワーク
 * nvm        nodeのバージョンをスイッチするツール。基本的には今回は0.8.4なので切り替えなどで使うことはない(というかそもそもインストールもいらないのだけれど)
 * mongodb    ドキュメント指向DB。
+* less CSSがスマートに書ける
+* underscore.js 配列等に便利なメソッドが提供されるライブラリ
 
 ### setting
 nvm(node version manager, rvmのようなもの)のインストールとNodeJSのインストール

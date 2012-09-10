@@ -1,4 +1,11 @@
-﻿////////////////////////////////////////////////////////////////////////////////////////
+﻿/*
+ * このgame描画用のコードは独立した部分をtakumi hattaが作成し、
+ * それをオンライン用にtakaya kotohataが改造したものです
+ *
+ */
+
+
+////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                    //
 //                          2d vector compute functions                               //
 //                                                                                    //
@@ -179,13 +186,17 @@ GameCtrl.prototype.WITCH_ITEM = false;
 
 // online elements
 GameCtrl.prototype.SCORE = 0;
-GameCtrl.prototype.STAR = 0;
+GameCtrl.prototype.LAP_SCORE = 0;
+GameCtrl.prototype.STAR = null;
+GameCtrl.prototype.NEWS = null;
 GameCtrl.prototype.USER_NAME = "User1";
-GameCtrl.prototype.GRADE = "Knight";
+GameCtrl.prototype.GRADE = "";
 GameCtrl.prototype.CONNECTS_NUM = 1;
+GameCtrl.prototype.JACKPOT = null;
 
 GameCtrl.prototype.initialize = function () {
     GameCtrl.prototype.SCORE = 0;
+    GameCtrl.prototype.LAP_SCORE = 0;
     GameCtrl.prototype.GAME_OVER = false;
     GameCtrl.prototype.GAME_CLEAR = false;
     GameCtrl.prototype.BOSS_FLAG = false;
@@ -441,6 +452,8 @@ function ObjectBase(texture_path) {
                 this.damageEffect("/images/halloween/effect03.png");
                 GameCtrl.prototype.SCORE -= 50;
                 GameCtrl.prototype.SCORE = Math.max(0, GameCtrl.prototype.SCORE);
+                GameCtrl.prototype.LAP_SCORE -= 50;
+                GameCtrl.prototype.LAP_SCORE = Math.max(0, GameCtrl.prototype.LAP_SCORE);
             }
             return false;
         }
@@ -450,6 +463,8 @@ function ObjectBase(texture_path) {
             this.damageEffect("/images/halloween/effect03.png");
             GameCtrl.prototype.SCORE -= 50;
             GameCtrl.prototype.SCORE = Math.max(0, GameCtrl.prototype.SCORE);
+            GameCtrl.prototype.LAP_SCORE -= 50;
+            GameCtrl.prototype.LAP_SCORE = Math.max(0, GameCtrl.prototype.LAP_SCORE);
             //this.remove();
             other.remove();
             //return true;
@@ -690,6 +705,7 @@ function collisionBoss_Bullet(container) {
             container.remove(i);
             boss_parameter.hitpoint -= 1;
             GameCtrl.prototype.SCORE += 10;
+            GameCtrl.prototype.LAP_SCORE += 10;
             if (boss_parameter.hitpoint == 0) {
                 this.remove();
                 return true;
@@ -820,6 +836,7 @@ function ObjectManager() {
             if (this._container.item(i).collisionBullet(this._bulletContainer)) {
                 this._container.remove(i);
                 GameCtrl.prototype.SCORE += 10;
+                GameCtrl.prototype.LAP_SCORE += 10;
             } else {
                 i += 1;
             }
@@ -952,6 +969,7 @@ function SceneBase() {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 function initializeMain() {
+    TRANSMITTER.enterGame();
     //GameCtrl.prototype.SOUND_LIST[0].play();
 
     // create textures
@@ -977,9 +995,9 @@ function initializeMain() {
     ************************************************/
 
     // create text(connects, score, runk, stars, other info)
-    var text = [0, 0, "Knight", 0, ""];
-    var position = [new Vector2(102, 2), new Vector2(250, 2), new Vector2(45, 20), new Vector2(235, 20), new Vector2(-500, 40)];
-    for (var i = 0; i < 5; i += 1) {
+    var text = [0, 0, "", 0, "","Jackpot:"];
+    var position = [new Vector2(102, 2), new Vector2(250, 2), new Vector2(45, 20), new Vector2(235, 20), new Vector2(-500, 40),new Vector2(165,21)];
+    for (var i = 0; i < 6; i += 1) {
         this._text[i] = new arc.display.TextField();
         this._text[i].setX(position[i].x);
         this._text[i].setY(position[i].y);
@@ -1042,52 +1060,65 @@ function updateMain() {
         return;
     }
 
-    
+
+    //サーバサイドに送信
+    if (this._frameTimer % 300 == 0) {
+        TRANSMITTER.sendScore(GameCtrl.prototype.LAP_SCORE,GameCtrl.prototype.SCORE);
+        GameCtrl.prototype.LAP_SCORE = 0;
+    }
+
     /***********************************************
 
       サーバーサイドから受取ったパラメータの表示場所
 
-    ************************************************/   
+    ************************************************/
     GameCtrl.prototype.GAME_HANDLER.setChildIndex(this._texture[2], GameCtrl.prototype.GAME_HANDLER.getSize() - 2); //@ player_info.png
     GameCtrl.prototype.GAME_HANDLER.setChildIndex(this._texture[4], GameCtrl.prototype.GAME_HANDLER.getSize() - 1); //@ info_line.png
-    for (var i = 0; i < 5; i += 1) {
+    for (var i = 0; i < 4; i += 1) {
         this._text[0].setText(GameCtrl.prototype.CONNECTS_NUM);
         this._text[1].setText(GameCtrl.prototype.SCORE);
         this._text[2].setText(GameCtrl.prototype.GRADE);
         this._text[3].setText(GameCtrl.prototype.STAR);
-        this._text[4].setText("こんばんは、琴畑です。みなさん元気ですか? " + GameCtrl.prototype.USER_NAME + "さんがLoginしました。 Let's play together!");
-        this._text[4].setX(500-this._infoScroll);  
+        //this._text[4].setText("こんばんは、琴畑です。みなさん元気ですか? " + GameCtrl.prototype.USER_NAME + "さんがLoginしました。 Let's play together!");
+        //this._text[4].setText(GameCtrl.prototype.NEWS);
+        //this._text[4].setX(500-this._infoScroll);
         // 描画順の再設定... 面倒だ…Canvasって…
         GameCtrl.prototype.GAME_HANDLER.setChildIndex(this._text[i], GameCtrl.prototype.GAME_HANDLER.getSize() - 3 + i);
     }
+    if(GameCtrl.prototype.NEWS !==null){
+        this._text[4].setText(GameCtrl.prototype.NEWS);
+        this._text[4].setX(300-this._infoScroll);
+        GameCtrl.prototype.GAME_HANDLER.setChildIndex(this._text[4], GameCtrl.prototype.GAME_HANDLER.getSize() - 3 + 4);
+    };
+    this._text[5].setText(GameCtrl.prototype.JACKPOT);
+    GameCtrl.prototype.GAME_HANDLER.setChildIndex(this._text[5], GameCtrl.prototype.GAME_HANDLER.getSize() - 3 + 4);
 
     // draw information on info_line.png
-    this._infoScroll += 1;
-    if (this._infoScroll > 1200) {
-        this._infoScroll = 0;
+    if(GameCtrl.prototype.NEWS !== null){
+        this._infoScroll += 1;
+        if (this._infoScroll > 800) {
+            this._infoScroll = 0;
+            GameCtrl.prototype.NEWS = null;
+            console.log("reset news");
+        }
     }
 
-    if (this._frameTimer % 30 == 0) {
-        GameCtrl.prototype.STAR += 1;
-    }
-    /* ここ保留
     for (var i = 0; i < 4; i += 1) {
         GameCtrl.prototype.GAME_HANDLER.setChildIndex(this._texture[5 + i], GameCtrl.prototype.GAME_HANDLER.getSize() - 8 + i);
         this._texture[5 + i].setVisible(false);
     }
 
     // 称号の描画
-    var s = GameCtrl.prototype.SCORE;
-    if (s >= 1 && s <= 20) {
+    var s = GameCtrl.prototype.STAR;
+    if (s >= 1 && s <= 9) {
         this._texture[5].setVisible(true);
-    } else if (s >= 21 && s <= 50) {
+    } else if (s >= 10 && s <= 29) {
         this._texture[6].setVisible(true);
-    } else if (s >= 51 && s <= 100) {
+    } else if (s >= 30 && s <= 99) {
         this._texture[7].setVisible(true);
     } else {
         this._texture[8].setVisible(true);
     }
-    */
     /***********************************************
 
               サーバーサイド関連終わり。
@@ -1106,7 +1137,8 @@ function updateMain() {
     }
 
     // create item 02
-    if (this._frameTimer > GameCtrl.prototype.BOSS_EMERGE_TIME + 2300 && !GameCtrl.prototype.WITCH_ITEM) {
+    //if (this._frameTimer > GameCtrl.prototype.BOSS_EMERGE_TIME + 2300 && !GameCtrl.prototype.WITCH_ITEM) {
+    if (!GameCtrl.prototype.WITCH_ITEM) {
         GameCtrl.prototype.WITCH_ITEM = true;
         var item = ObjectFactory.create("Enemy", "/images/halloween/item02.png");
         item.initialize(new Vector2(randInt(50, 250), -20));
@@ -1116,7 +1148,8 @@ function updateMain() {
     }
 
     // create enemy
-    if (this._frameTimer < GameCtrl.prototype.BOSS_EMERGE_TIME) {
+    //if (this._frameTimer < GameCtrl.prototype.BOSS_EMERGE_TIME && !GameCtrl.prototype.BOSS_FLAG) {
+    if (!GameCtrl.prototype.BOSS_FLAG) {
         if ((this._frameTimer % 12) == 0) {
             var t = randInt(0, 2);
             var texturePath = ["/images/halloween/enemy01.png", "/images/halloween/enemy02.png"];
@@ -1129,16 +1162,18 @@ function updateMain() {
     }
 
     // create boss
-    if (this._frameTimer > GameCtrl.prototype.BOSS_EMERGE_TIME + 180) {
-        if (!GameCtrl.prototype.BOSS_FLAG) {
-            GameCtrl.prototype.BOSS_FLAG = true;
-            GameCtrl.prototype.ENABLE_BULLET = true;
-            var boss = ObjectFactory.create("Boss", "/images/halloween/boss.png");
-            boss.update = updateBossFunc;
-            boss.setAnimation();
-            boss._radius = 50;
-            this._objectManager.push(boss);
-        }
+    //if (this._frameTimer > GameCtrl.prototype.BOSS_EMERGE_TIME + 180) {
+    if (GameCtrl.prototype.EMERGE_BOSS){
+        GameCtrl.prototype.EMERGE_BOSS = false;
+        //if (!GameCtrl.prototype.BOSS_FLAG) {
+        GameCtrl.prototype.BOSS_FLAG = true;
+        GameCtrl.prototype.ENABLE_BULLET = true;
+        var boss = ObjectFactory.create("Boss", "/images/halloween/boss.png");
+        boss.update = updateBossFunc;
+        boss.setAnimation();
+        boss._radius = 50;
+        this._objectManager.push(boss);
+        //}
     }
 
     // create bullet

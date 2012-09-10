@@ -7,8 +7,14 @@ GAMEMODE = {
 NEWSTYPE = {
   excellentScore:1,
   jackpot:2,
-  connectingNum:3
+  kiribanScore:3
 }
+rand = (min,max)->
+  return Math.floor ((max - min) * Math.random()) + min
+intermediateCheck = (before,after)->
+  if before < after
+    _([1000,2000,3000]).detect (num)->
+      (before - num)*(after-num) <= 0 and before isnt num
 jackpot = {}
 scores = {}
 scores.calculateStar = (data)->
@@ -57,9 +63,12 @@ app.io.sockets.on 'connection', (socket)->
       socket.set 'gameId', gameId
       socket.set 'gameMode',game.mode
       app.io.sockets.in(gameId).emit "userIn",{connect:connecting(gameId),jackpot:jackpot[gameId]}
+      #100人超えてたらランダムでボス出現
+      #TODO ボスを倒したらどうなるかなどはとくにない
+      if rand(0,10) == 0 && connecting(gameId) > 100
+        app.io.sockets.in(gameId).emit "emergeBoss"
       User.find userId,(err,user)->
         console.log err+"user find err"  if err
-        #scores[gameId][userId] = [] unless scores[gameId][userId]?
         scores[gameId][userId] or= []
         scores[gameId][userId].push 50
         socket.set 'userId', userId
@@ -67,23 +76,32 @@ app.io.sockets.on 'connection', (socket)->
 
   socket.on "sendScore", (data)->
     score = data.score
+    total = data.total
     userId = data.userId
     User.find userId, (err,user)->
       console.log err+"user find err" if err
       socket.get 'gameId',(err,gameId)->
-        if score > 150
+        kiriban =  intermediateCheck total-score,total
+        if kiriban?
+          app.io.sockets.in(gameId).emit "news",{type:NEWSTYPE["kiribanScore"],data:{score:kiriban,user:user.name}}
+        if score > 300
           app.io.sockets.in(gameId).emit "news",{type:NEWSTYPE["excellentScore"],data:{score:score,user:user.name}}
         console.log err+"game get error" if err
         scores[gameId][userId].push score
         ranking = scores.calculateRanking gameId,userId
-        socket.emit 'scoreResult',ranking
+        if ranking == 1 && rand(0,10) == 0
+          console.log "hoge"
+          app.io.sockets.in(gameId).emit "news",{type:NEWSTYPE["jackpot"],data:{user:user.name,jackpot:jackpot[gameId]}}
+          jackpot[gameId] = 100
         socket.get 'gameMode', (err,gameMode)->
           console.log err+"gamemode get error" if err
-          unless gameMode==GAMEMODE["noRate"]
+          if gameMode==GAMEMODE["noRate"]
+            star = 0
+          else
             star = scores.calculateStar {gameId:gameId,userId:userId,connect:connecting(gameId), gameMode:gameMode}
-            socket.emit 'starResult',star
             user.star += star
             user.save()
+          socket.emit 'scoreResult',{ranking:ranking,star:star,score:score}
 
   socket.on "disconnect", ->
     socket.get 'gameId',(err,gameId)->
