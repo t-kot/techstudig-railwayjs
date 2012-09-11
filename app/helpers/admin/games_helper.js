@@ -1,8 +1,1 @@
-module.exports = {
-    displayType: function(type){
-        return Game.typeFormatJa[type];
-    },
-    displayMode: function(mode){
-        return Game.modeFormatJa[mode];
-    }
-};
+module.exports = require('../games_helper');
