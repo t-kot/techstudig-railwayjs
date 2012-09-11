@@ -5,8 +5,10 @@ before 'set current user', ->
   User.find req.cookies.user_id,(err,user)=>
     if err || !user?
       @current_user = null
+      console.log("user not found")
     else
       @current_user = user
+      console.log("user found")
     next()
 
 requireAuthenticate= ()->
@@ -19,7 +21,8 @@ publish('requireAuthenticate', requireAuthenticate)
 
 
 checkValidateUser= ()->
-  if @current_user == null || @current_user.id isnt params.id
+  if @current_user == null || @current_user.id+"" isnt params.id
+    flash 'error', 'You cannot access this page'
     redirect path_to.root()
   next()
 

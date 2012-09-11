@@ -12,8 +12,23 @@ function ValidAttributes () {
         createdAt: new Date()
     };
 }
+function ValidUserAttributes (){
+    return {
+        id: 1,
+        name: 'user1',
+        password: 'password1',
+        type: 1,
+        createdAt: new Date()
+    };
+}
 
 exports['games controller'] = {
+    setUp: function (callback){
+        User.find = sinon.spy(function (id, callback){
+            callback(null, new ValidUserAttributes);
+        });
+        callback();
+    },
 
     'GET new': function (test) {
         test.get('/games/new', function () {
@@ -74,30 +89,6 @@ exports['games controller'] = {
         });
     },
 
-    'PUT update': function (test) {
-        Game.find = sinon.spy(function (id, callback) {
-            test.equal(id, 1);
-            callback(null, {id: 1, updateAttributes: function (data, cb) { cb(null); }});
-        });
-        test.put('/games/1', new ValidAttributes, function () {
-            test.redirect('/games/1');
-            test.flash('info');
-            test.done();
-        });
-    },
-
-    'PUT update fail': function (test) {
-        Game.find = sinon.spy(function (id, callback) {
-            test.equal(id, 1);
-            callback(null, {id: 1, updateAttributes: function (data, cb) { cb(new Error); }});
-        });
-        test.put('/games/1', new ValidAttributes, function () {
-            test.success();
-            test.render('edit');
-            test.flash('error');
-            test.done();
-        });
-    },
 
     'DELETE destroy': function (test) {
         test.done();
