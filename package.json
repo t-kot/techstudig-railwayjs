@@ -23,6 +23,8 @@
   { "nodeunit":         "*"
   , "sinon":            "*"
   , "semicov":          "*"
+  , "socket.io-client": "*"
+  , "mongoose-fixtures":"*"
   }
 , "scripts":
   { "test": "nodeunit test/*/*"

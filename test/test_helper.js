@@ -1,4 +1,5 @@
 var app = require('railway').createServer();
+console.log(app.settings.env);
 app.enable('quiet');
 app.enable('models cache');
 app.enable('eval cache');

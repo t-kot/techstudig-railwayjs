@@ -3,7 +3,8 @@
     ,"url":     "mongodb://localhost/techstudig"
   }
 , "test":
-  { "driver":   "memory"
+  { "driver":   "mongoose"
+    ,"url":     "mongodb://localhost/techstudig_test"
   }
 , "production":
   { "driver":"mongoose"
