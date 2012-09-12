@@ -38,6 +38,14 @@
             "type": 2,
             "mode": 2,
             "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
+        },
+        "game3":{
+            "ownerId": 2,
+            "ownerName": "fukuda",
+            "title": "title3",
+            "type": 1,
+            "mode": 2,
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
         }
     }
 }
