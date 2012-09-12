@@ -3,16 +3,23 @@
         "user1":{
             "name": "tanaka",
             "password": "kakuei",
-            "createdAt": "",
             "star": 10,
-            "type": 1
+            "type": 1,
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
         },
         "user2":{
             "name": "fukuda",
             "password": "takeo",
-            "createdAt":"",
             "star": 10,
-            "type": 2
+            "type": 2,
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
+        },
+        "user3":{
+            "name": "oohira",
+            "password": "masayoshi",
+            "star": 10,
+            "type": 2,
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
         }
     },
     "games":{
@@ -22,7 +29,7 @@
             "title": "title1",
             "type": 2,
             "mode": 1,
-            "createdAt":""
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
         },
         "game2":{
             "ownerId": 2,
@@ -30,7 +37,7 @@
             "title": "title2",
             "type": 2,
             "mode": 2,
-            "createdAt":""
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
         }
     }
 }
