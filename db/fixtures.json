@@ -1,0 +1,37 @@
+{
+    "users":{
+        "user1":{
+            "name": "tanaka",
+            "password": "kakuei",
+            "createdAt": "",
+            "star": 10,
+            "type": 1
+        },
+        "user2":{
+            "name": "fukuda",
+            "password": "takeo",
+            "createdAt":"",
+            "star": 10,
+            "type": 2
+        }
+    },
+    "games":{
+        "game1":{
+            "ownerId": 1,
+            "ownerName": "tanaka",
+            "title": "title1",
+            "type": 2,
+            "mode": 1,
+            "createdAt":""
+        },
+        "game2":{
+            "ownerId": 2,
+            "ownerName": "fukuda",
+            "title": "title2",
+            "type": 2,
+            "mode": 2,
+            "createdAt":""
+        }
+    }
+}
+

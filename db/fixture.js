@@ -1,14 +1,12 @@
-exports.User = {
+exports.users = {
     user1:{
-        id: 1,
         name: 'tanaka',
         password: 'kakuei',
         createdAt: new Date(),
         star: 10,
-        type: 2
+        type: 1
     },
     user2:{
-        id: 2,
         name: 'fukuda',
         password: 'takeo',
         createdAt: new Date(),
@@ -16,9 +14,8 @@ exports.User = {
         type: 2
     }
 };
-exports.Game = {
+exports.games = {
     game1:{
-        id: 1,
         ownerId: 1,
         ownerName: 'tanaka',
         title: 'title1',
@@ -27,7 +24,6 @@ exports.Game = {
         createdAt: new Date()
     },
     game2:{
-        id: 2,
         ownerId: 2,
         ownerName: 'fukuda',
         title: 'title2',

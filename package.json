@@ -18,6 +18,8 @@
   , "formidable":       "*"
   , "less-middleware":  "*"
   , "underscore":       "*"
+  , "synchronize":      "*"
+  , "mongo-sync":       "*"
   },
   "devDependencies":
   { "nodeunit":         "*"

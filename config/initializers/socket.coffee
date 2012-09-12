@@ -65,7 +65,7 @@ app.io.sockets.on 'connection', (socket)->
       app.io.sockets.in(gameId).emit "userIn",{connect:connecting(gameId),jackpot:jackpot[gameId]}
       #100人超えてたらランダムでボス出現
       #TODO ボスを倒したらどうなるかなどはとくにない
-      if rand(0,10) == 0 && connecting(gameId) > 100
+      if rand(0,10) == 0 #&& connecting(gameId) > 100
         app.io.sockets.in(gameId).emit "emergeBoss"
       User.find userId,(err,user)->
         console.log err+"user find err"  if err
