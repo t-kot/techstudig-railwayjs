@@ -1,9 +1,10 @@
 load 'application'
+before use('checkValidateUser'), {only: ['edit','update','destroy'] }
 
 before 'load user', ->
   User.find params.id, (err, user) =>
     if err
-      redirect path_to.users()
+      redirect path_to.root()
     else
       @user = user
       next()
@@ -28,7 +29,7 @@ action 'create', ->
     else
       flash 'info', 'Welcome! Account is successfully created!'
       response.cookie 'user_id',user.id
-      redirect path_to.users()
+      redirect path_to.root()
 
 action 'index', ->
   User.all (err, users) =>
@@ -45,6 +46,7 @@ action 'edit', ->
   render()
 
 action 'update', ->
+  #uploadPhoto()
   @user.updateAttributes body.User, (err) =>
     if !err
       flash 'info', 'User updated'
@@ -60,4 +62,19 @@ action 'destroy', ->
       flash 'error', 'Can not destroy user'
     else
       flash 'info', 'User successfully removed'
-      send "'" + path_to.users() + "'"
+      send "'" + path_to.root() + "'"
+
+uploadPhoto= ->
+  if(req.files)
+    #console.log req.files.User.image.name
+    console.log req.files.User.image.path
+    console.log app.root
+    ins = fs.createReadStream(req.files.User.image.path)
+    ous = fs.createWriteStream(app.root+'/public/uploads/'+req.files.User.image.name)
+    #console.log req.files
+    #path = req.files.User.image.path
+    ##console.log User.image
+    #console.log User.image.filename
+    #split_path = path.split("/")
+    #new_path = "/"+split_path[1]+"/"+split_path[2]
+    #body.User['image'] = User.image.name

@@ -1,0 +1,68 @@
+!!! 5
+html
+  head
+    title= "Admin"
+    meta(name='viewport', content='width=device-width,initial-scale=1.0')
+    != stylesheet_link_tag('bootstrap','bootstrap-responsive','admin')
+    != javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', 'bootstrap', 'rails', 'jquery.cookie','application')
+    != csrf_meta_tag()
+  body
+    .navbar.navbar-inverse
+      .navbar-inner
+        .container
+          a.brand(href="/admin/") TechStuDIG
+          a.btn.btn-navbar(data-toggle='collapse',data-target=".nav-collapse")
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          .nav-collapse
+            ul.nav
+              li.dropdown
+                a.dropdown-toggle(data-toggle="dropdown") User Admin
+                  b.caret
+                ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                  li
+                    != link_to("Create User",path_to.new_admin_user())
+                  li
+                    != link_to("Users",path_to.admin_users())
+              li.dropdown
+                a.dropdown-toggle(data-toggle="dropdown") Game Admin
+                  b.caret
+                ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                  li
+                    != link_to("Create Game Room",path_to.new_admin_game())
+                  li
+                    != link_to("Game Room",path_to.admin_games())
+              li.dropdown
+                a.dropdown-toggle(data-toggle="dropdown") Chat Admin
+                  b.caret
+                ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                  li
+                    != link_to("Create Chat Room",path_to.new_admin_room())
+                  li
+                    != link_to("Chat Rooms",path_to.admin_rooms())
+
+              li.dropdown
+                a.dropdown-toggle(data-toggle="dropdown")= current_user.name
+                  b.caret
+                ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                  li
+                    != link_to("Logout",'/logout')
+    .container
+      - var flash = request.flash('info').pop(); if (flash) {
+        .alert.alert-success
+          a.close(data-dismiss="alert") x
+          = flash
+      - }
+
+      - flash = request.flash('error').pop(); if (flash) {
+        .alert.alert-error
+          a.close(data-dismiss="alert") x
+          = flash
+      - }
+
+      != body
+
+      hr
+      footer
+        p &copy; TechStudig 2012

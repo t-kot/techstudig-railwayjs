@@ -5,6 +5,4 @@
   != partial('users/form.jade', {locals: {form: form, user: user}})
   .actions
     != form.submit('Create user', {class: 'btn'})
-    span= ' or '
-    != link_to('Cancel', path_to.users(), {class: 'btn'})
 - });

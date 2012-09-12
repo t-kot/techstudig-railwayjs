@@ -2,23 +2,49 @@
 html
   head
     title= title
+    meta(name='viewport', content='width=device-width,initial-scale=1.0')
+    != javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', 'bootstrap', 'rails', 'jquery.cookie','application')
     != stylesheet_link_tag('bootstrap', 'style', 'bootstrap-responsive')
-    != javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', 'bootstrap', 'rails', 'application')
     != csrf_meta_tag()
   body
-    .navbar
+    .navbar.navbar-inverse
       .navbar-inner
         .container
           a.brand(href="/") TechStuDIG
-          .nav-collapse.collapse
+          a.btn.btn-navbar(data-toggle='collapse',data-target=".nav-collapse")
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          .nav-collapse
             ul.nav
               - if (current_user) {
-                li
-                  != link_to("Chat Rooms",path_to.rooms() )
-                li
-                  != link_to("Create Chat Room",path_to.new_room())
-                li
-                  != link_to("Logout",'/logout')
+                li.dropdown
+                  a.dropdown-toggle(data-toggle="dropdown") Game
+                    b.caret
+                  ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                    li
+                      != link_to("Create Game Room",path_to.new_game())
+                    li
+                      != link_to("Game Room",path_to.games())
+                li.dropdown
+                  a.dropdown-toggle(data-toggle="dropdown") Chat
+                    b.caret
+                  ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                    li
+                      != link_to("Create Chat Room",path_to.new_room())
+                    li
+                      != link_to("Chat Rooms",path_to.rooms())
+
+                li.dropdown
+                  a.dropdown-toggle(data-toggle="dropdown")= current_user.name
+                    b.caret
+                  ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                    li
+                      != link_to("View Profile",path_to.user(current_user))
+                    li
+                      != link_to("Edit Profile",path_to.edit_user(current_user))
+                    li
+                      != link_to("Logout",'/logout')
               -}else {
                 li
                   != link_to("Login",path_to.new_session())

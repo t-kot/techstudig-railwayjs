@@ -1,4 +1,7 @@
 var app = require('railway').createServer();
+port = process.env.PORT || 3000;
+app.listen(port);
+console.log(app.settings.env);
 app.enable('quiet');
 app.enable('models cache');
 app.enable('eval cache');
