@@ -12,8 +12,3 @@ User.type = {
   "admin":2
 }
 
-User.prototype.title =->
-  if this.star < 10 then return "Prince"
-  if 10<= this.star && this.star < 30 then return "Ace"
-  if 30<= this.star && this.star < 100 then return "Knight"
-  if 100<=star then return "Jack"

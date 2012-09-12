@@ -18,6 +18,8 @@ socket.ioを使用したリアルタイムシューティングゲーム。接�
 * Express    nodeJSのデファクトスタンダード的フレームワーク
 * nvm        nodeのバージョンをスイッチするツール。基本的には今回は0.8.4なので切り替えなどで使うことはない(というかそもそもインストールもいらないのだけれど)
 * mongodb    ドキュメント指向DB。
+* less CSSがスマートに書ける
+* underscore.js 配列等に便利なメソッドが提供されるライブラリ
 
 ### setting
 nvm(node version manager, rvmのようなもの)のインストールとNodeJSのインストール
@@ -68,7 +70,7 @@ RailwayJSのインストールと動作確認
 	* environment.coffee 環境設定ファイル(共通)
 	* environments/ developmentやproductionごとの設定ファイル
 	* initializers/ アプリ起動時に一度実行される処理。socket.ioの処理などはここに書いてある(※)
-	* routes.coffee どのcontrollerに処理を渡すかのルーティング(*)
+	* routes.coffee どのcontrollerに処理を渡すかのルーティング(※)
 * db/
 	* schema.coffee dbのスキーマ設定ファイル
 * log/ 各ログファイル
@@ -80,7 +82,7 @@ RailwayJSのインストールと動作確認
 	* stylesheets/ スタイルシート
 	* uploads/ アップロードされたファイルの置き場
 	* javascripts/
-		* game.js ゲーム本体(*)
+		* game.js ゲーム本体(※)
 		* game-transceiver.js ゲームでsocket通信を行う(*)
 * server.coffee 一般で言うapp.jsと同じ
 * test/ testコード置き場
@@ -90,6 +92,73 @@ RailwayJSのインストールと動作確認
 ページが見られる。ユーザや諸々のデータの編集・削除権限は基本的には当該ユーザのみに与えられるが、adminユーザはすべての情報を編集・削除できる。
 実際的には通常のuser作成のときにはadminになることはさせずに、adminを増やす場合はadminページから作成するのが望ましいが、簡単のために通常のuser作成からadminを作ることができるようにした。
 
+### テスト
+nodeunit,sinonを使用。nodeunitはグローバルインストールした場合コマンドがなぜかうまく使えない(要確認)ので、プロジェクトのnode_modulesにインストールし、
+
+NODE_ENV=test ./node_modules/nodeunit/bin/nodeunit test/controllers/**_controller_test.js
+
+のように実行
+
+あるいは
+
+NODE_ENV=test ./nodeunit test/controllers/**_controller_test.js
+
+というふうに提供済みのシンボリックリンクを使用する。
+
+### 作成したnpm
+◯load_fixture
+
+https://npmjs.org/package/load_fixture
+
+今回作成したのはdb/fixtures.jsonに用意したテスト用のデータをmongoに突っ込むためのライブラリで、処理的には
+
+	"users":{
+		"user1":{
+			"name":"hoge"
+			…
+		},
+		"user2":{
+			"name":"fuga"
+			…
+		},
+	"games":{
+		"game1":{
+			"title":"hoge",
+			…
+		},
+		"game2":{
+			"title":"fuga",
+			…
+		}
+	}
+
+users,gamesなどがモデル名に対応し、その中のそれぞれのuser1などを一つのレコードとして作成していく。
+注意点としては、呼び出した時に一度users,gamesなどのレコードを一度すべて削除してからfixtureのデータを突っ込んでいるので、fixtureのデータをテスト終了時に削除するような、一般的な順序とは逆である。
+
+また、validationを提供するモジュールは使っていないのでアプリ内のバリデーションの記述は無視される。
+
+本来は_idも指定したかったが、原因不明でできなかった。（保存自体はできるが、アプリ側がうまく処理できなくなった）
+
+そのためテストデータとして投入したオブジェクトをテストで使用する際にはUser.find({where:{name:"hoge"} }, function…
+のようにしている。
+
+使用する場合には
+
+require('load_fixture').load {path: "db/fixtures.json", host: "localhost", db: "techstudig_test"}
+
+のように用いる。今回,config/environments/test.coffeeの中で呼び出している。
+
+ここから先は理想論として、もし時間がもっとあったら
+
+* テストを書く
+* mongoのObjectIdを指定可能にして、mongooseなどからfind可能にする
+* fixtureからロード=>削除の順番に
+* NODE_ENVがtestの場合のみテスト終了orサーバシャットダウン時にロードしたデータを削除
+* コマンドラインツールの提供
+
+などができたらよかったです。。。あと例外処理なども全く書いてないので。。。
+
+				
 ### その他
 質問等はこちらまで。 <t.kotohata@gmail.com>
 

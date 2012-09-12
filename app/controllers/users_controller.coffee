@@ -1,5 +1,3 @@
-#formidable = require('formidable')
-util = require('util')
 load 'application'
 before use('checkValidateUser'), {only: ['edit','update','destroy'] }
 

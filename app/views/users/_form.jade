@@ -14,5 +14,6 @@
 .clearfix
   != form.label("type")
   select(name='User[type]')
-    option(value=1) 一般ユーザ
-    option(value=2) 管理者
+    - for(var i=1; i<3; i++){
+      option(value=i)= displayUserType(i)
+    - }

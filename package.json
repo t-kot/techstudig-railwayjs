@@ -17,11 +17,17 @@
   , "moment":           "*"
   , "formidable":       "*"
   , "less-middleware":  "*"
+  , "underscore":       "*"
+  , "synchronize":      "*"
+  , "mongo-sync":       "*"
   },
   "devDependencies":
   { "nodeunit":         "*"
   , "sinon":            "*"
   , "semicov":          "*"
+  , "socket.io-client": "*"
+  , "mongoose-fixtures":"*"
+  , "load_fixture"     :"*"
   }
 , "scripts":
   { "test": "nodeunit test/*/*"

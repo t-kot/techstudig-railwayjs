@@ -3,8 +3,7 @@
 
 div(about=path_to.user(user))
   .field(property='name')= user.name
-  //.field(property='star')= displayUserTitle(user.star)
-  .field(property='star')= user.title()
+  .field(property='star')= displayUserTitle(user.star)
   .field(property='createdAt')= date_format(user.createdAt)
   .field(property='image')
     .thumb(style="width:100px; height:100px; background: url(#{user.image}) no-repeat center; background-size: cover;" )
