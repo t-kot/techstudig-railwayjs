@@ -48,7 +48,6 @@ app.io.sockets.on 'connection', (socket)->
         scores[gameId][userId].push score
         ranking = scores.calculateRanking gameId,userId
         if ranking == 1 && utility.rand(0,10) == 0
-          console.log "hoge"
           app.io.sockets.in(gameId).emit "news",{type:Game.newsType["jackpot"],data:{user:user.name,jackpot:jackpot[gameId]}}
           jackpot[gameId] = 100
         socket.get 'gameMode', (err,gameMode)->
