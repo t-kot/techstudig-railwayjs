@@ -24,6 +24,7 @@
               td= game.ownerName
               td= date_format(game.createdAt)
               td
+                != link_to('<i class="icon-edit"></i>Edit', path_to.edit_admin_game(game), {class: 'btn btn-mini'})
                 != link_to('<i class="icon-remove icon-white"></i>Delete', path_to.admin_game(game), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'})
           - })
     -} else {

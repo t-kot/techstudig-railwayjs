@@ -1,16 +1,6 @@
 utility = require('../../lib/utility')
 scores = require('../../lib/score').scores
 _ = require('underscore')._
-GAMEMODE = {
-  relax:1,
-  hardBet:2,
-  noRate:3
-}
-NEWSTYPE = {
-  excellentScore:1,
-  jackpot:2,
-  kiribanScore:3
-}
 
 jackpot = {}
 connecting=(gameId)->
@@ -51,19 +41,19 @@ app.io.sockets.on 'connection', (socket)->
       socket.get 'gameId',(err,gameId)->
         kiriban =  utility.intermediateCheck total-score,total
         if kiriban?
-          app.io.sockets.in(gameId).emit "news",{type:NEWSTYPE["kiribanScore"],data:{score:kiriban,user:user.name}}
+          app.io.sockets.in(gameId).emit "news",{type:Game.newsType["kiribanScore"],data:{score:kiriban,user:user.name}}
         if score > 300
-          app.io.sockets.in(gameId).emit "news",{type:NEWSTYPE["excellentScore"],data:{score:score,user:user.name}}
+          app.io.sockets.in(gameId).emit "news",{type:Game.newsType["excellentScore"],data:{score:score,user:user.name}}
         console.log err+"game get error" if err
         scores[gameId][userId].push score
         ranking = scores.calculateRanking gameId,userId
         if ranking == 1 && utility.rand(0,10) == 0
           console.log "hoge"
-          app.io.sockets.in(gameId).emit "news",{type:NEWSTYPE["jackpot"],data:{user:user.name,jackpot:jackpot[gameId]}}
+          app.io.sockets.in(gameId).emit "news",{type:Game.newsType["jackpot"],data:{user:user.name,jackpot:jackpot[gameId]}}
           jackpot[gameId] = 100
         socket.get 'gameMode', (err,gameMode)->
           console.log err+"gamemode get error" if err
-          if gameMode==GAMEMODE["noRate"]
+          if gameMode==Game.modeFormat["noRate"]
             star = 0
           else
             star = scores.calculateStar {gameId:gameId,userId:userId,connect:connecting(gameId), gameMode:gameMode}

@@ -39,7 +39,7 @@ action 'index', ->
 
 action 'show', ->
   ua = req.headers['user-agent']?.toLowerCase() || "PC"
-  layout('mobile') if isSmartPhone(ua)
+  layout('mobile') if utility.isSmartPhone(ua)
   @title = 'Game show'
   render()
 
