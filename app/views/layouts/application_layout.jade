@@ -26,14 +26,14 @@ html
                       != link_to("Create Game Room",path_to.new_game())
                     li
                       != link_to("Game Room",path_to.games())
-                li.dropdown
-                  a.dropdown-toggle(data-toggle="dropdown") Chat
-                    b.caret
-                  ul.dropdown-menu(role='menu',aria-labelledby='drop1')
-                    li
-                      != link_to("Create Chat Room",path_to.new_room())
-                    li
-                      != link_to("Chat Rooms",path_to.rooms())
+                //li.dropdown
+                //  a.dropdown-toggle(data-toggle="dropdown") Chat
+                //    b.caret
+                //  ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                //    li
+                //      != link_to("Create Chat Room",path_to.new_room())
+                //    li
+                //      != link_to("Chat Rooms",path_to.rooms())
 
                 li.dropdown
                   a.dropdown-toggle(data-toggle="dropdown")= current_user.name
@@ -60,7 +60,7 @@ html
 
       - flash = request.flash('error').pop(); if (flash) {
         .alert.alert-error
-          a.close(data-dismiss="alert") x
+          a.close(data-dismiss='alert') x
           = flash
       - }
 

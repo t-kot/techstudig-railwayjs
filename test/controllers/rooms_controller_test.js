@@ -9,7 +9,29 @@ function ValidAttributes () {
     };
 }
 
+
+function ValidUserAttributes (){
+    return {
+        id: 1,
+        name: 'user1',
+        password: 'password1',
+        type: 1,
+        createdAt: new Date()
+    };
+}
+
 exports['rooms controller'] = {
+    setUp: function (callback){
+        this.userfind = User.find;
+        User.find = sinon.spy(function (id, callback){
+            callback(null, new ValidUserAttributes);
+        });
+        callback();
+    },
+    tearDown: function (callback){
+        User.find = this.userfind;
+        callback();
+    },
 
     'GET new': function (test) {
         test.get('/rooms/new', function () {
