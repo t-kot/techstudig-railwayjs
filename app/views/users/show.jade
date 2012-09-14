@@ -1,13 +1,20 @@
+!= stylesheet_link_tag("user")
 .page-header
-  h1 Details of user
+  h2= user.name
+  h5 Joined at
+    span.join_date
+      = date_format(user.createdAt)
 
-div(about=path_to.user(user))
-  .field(property='name')= user.name
-  .field(property='star')= displayUserTitle(user.star)
-  .field(property='createdAt')= date_format(user.createdAt)
-  .field(property='image')
-    .thumb(style="width:100px; height:100px; background: url(#{user.image}) no-repeat center; background-size: cover;" )
+.row-fruid
+  .span2
+    .field(property='image')
+      .thumb(style="width:100px; height:100px; background: url(#{user.image}) no-repeat center; background-size: cover;" )
+      h6 Title:
+        span= displayUserTitle(user.star)
 
-.actions
-  != link_to('Edit', path_to.edit_user(user), {class: 'btn primary'}) + ' '
-  != link_to('Delete', path_to.user(user), {class: 'btn danger', method: 'delete', remote: true, jsonp: '(function (u) { location.href = u; })'})
+  .span8
+    p= user.profile
+    .form-actions
+      != link_to('Edit', path_to.edit_user(user), {class: 'btn btn-primary'}) + ' '
+      != link_to('Delete', path_to.user(user), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) { location.href = u; })'})
+.clearfix

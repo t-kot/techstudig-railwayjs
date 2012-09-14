@@ -3,11 +3,15 @@ Game.validatesUniquenessOf 'title', {message: 'is not unique'}
 Game.belongsTo User, {as: "owner", foreignKey: "ownerId"}
 Game.typeFormatJa = {
   1:"インベーダー",
-  2:"ハロウィーン"
+  2:"ハロウィーン",
+  3:"モンスター",
+  4:"ポップ"
 }
 Game.type = {
   "invader":1,
-  "halloween":2
+  "halloween":2,
+  "monstar":3,
+  "pop":4
 }
 Game.modeFormatJa = {
   1:"楽しくワイワイ",

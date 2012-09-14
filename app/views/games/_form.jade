@@ -1,21 +1,23 @@
 != errorMessagesFor(game)
+.control-group
+  label.control-label(for="inputGameTitle") Title
+  .controls
+    input#inputGameTitle(type='text', placeholder='Title')
+.control-group
+  label.control-label(for="inputGameType") Title
+  .controls
+    select#inputGameType(name='Game[type]')
+      - for(var i=1; i<5; i++){
+        option(value=i)= displayType(i)
+      - }
+.control-group
+  label.control-label(for='inputGameMode') Mode
+  .controls
+    select#inputGameMode(name='Game[mode]')
+      - for(var i=1; i<4; i++){
+        option(value=i)= displayMode(i)
+      - }
 .input
   != form.input("ownerId",{type:"hidden"})
 .input
   != form.input("ownerName",{type:"hidden"})
-.clearfix
-  != form.label("title")
-  .input
-    != form.input("title")
-.clearfix
-  != form.label("type")
-  select(name='Game[type]')
-    - for(var i=1; i<3; i++){
-      option(value=i)= displayType(i)
-    - }
-.clearfix
-  != form.label("mode")
-  select(name='Game[mode]')
-    - for(var i=1; i<4; i++){
-      option(value=i)= displayMode(i)
-    - }
