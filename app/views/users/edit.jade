@@ -1,3 +1,4 @@
+!= stylesheet_link_tag("user")
 .page-header
   h1 Edit user
 
@@ -5,4 +6,5 @@
   != partial('users/form.jade', {locals: {form: form, user: user}})
   .form-actions
     != form.submit('Update user', {class: 'btn btn-primary'})
+    != link_to('Cancel', path_to.user(user), {class: 'btn',id:'btn-cancel'})
 - });

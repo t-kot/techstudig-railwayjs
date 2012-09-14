@@ -5,6 +5,7 @@ User = define 'User', ->
   property 'image', String
   property 'star', Number, default: 10
   property 'type', Number, default: 1
+  property 'profile', Text
 
 Post = describe 'Post', () ->
   property 'userId', String
