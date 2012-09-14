@@ -1,4 +1,11 @@
 _ = require('underscore')._
+crypt = require('crypto')
+exports.passwordEncrypt = (text)->
+  cipher = crypt.createCipher('aes256', 'Gufdre89uCXJijdi')
+  crypted = cipher.update(text, 'utf8', 'hex')
+  crypted += cipher.final('hex')
+
+
 exports.GAMEMODE = {
   relax:1,
   hardBet:2,
