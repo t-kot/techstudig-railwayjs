@@ -82,6 +82,22 @@
             "type": 2,
             "mode": 2,
             "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
+        },
+        "game5":{
+            "ownerId": 1,
+            "ownerName": "tanaka",
+            "title": "title5",
+            "type": 3,
+            "mode": 2,
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
+        },
+        "game6":{
+            "ownerId": 1,
+            "ownerName": "tanaka",
+            "title": "title6",
+            "type": 4,
+            "mode": 1,
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
         }
     }
 }

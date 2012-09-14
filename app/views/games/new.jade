@@ -1,10 +1,9 @@
-.page-header
-  h1 New game
+legend New game
 
-- form_for(game, {action: path_to.games(), method: 'POST', id: "game_form"}, function (form) {
+- form_for(game, {action: path_to.games(), method: 'POST', id: "game_form", class:'form-horizontal'}, function (form) {
   != partial('games/form.jade', {locals: {form: form, game: game}})
-  .actions
-    != form.submit('Create game', {class: 'btn'})
+  .form-actions
+    != form.submit('Create game', {class: 'btn btn-success'})
     span= ' or '
     != link_to('Cancel', path_to.games(), {class: 'btn'})
 - });

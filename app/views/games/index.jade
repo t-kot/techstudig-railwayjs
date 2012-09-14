@@ -7,13 +7,21 @@
       table.table.table-striped
         thead
           tr
-            th Title
-            th Type
-            th Mode
-            th Owner
-            - if (mobile==false){
-              th 作成日
-            - }
+            th
+              i.icon-align-justify
+              |Title
+            th
+              i.icon-tag
+              |Type
+            th
+              i.icon-fire
+              |Mode
+            th.hidden-phone
+              i.icon-user
+              |Owner
+            th.hidden-phone
+              i.icon-calendar
+              |作成日
             th
         tbody
           - games.forEach(function (game){
@@ -23,10 +31,8 @@
                   != link_to(game.title, path_to.game(game))
               td= displayType(game.type)
               td= displayMode(game.mode)
-              td= game.ownerName
-              - if(mobile==false){
-                td= date_format(game.createdAt)
-              - }
+              td.hidden-phone= game.ownerName
+              td.hidden-phone= date_format(game.createdAt)
               td
                 - if (game.ownerId == current_user.id){
                   != link_to('<i class="icon-remove icon-white"></i>Delete', path_to.game(game), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'})
@@ -39,4 +45,4 @@
 hr
 
 .well
-  != link_to('New game', path_to.new_game(), {class: 'btn'})
+  != link_to('New game', path_to.new_game(), {class: 'btn btn-primary'})
