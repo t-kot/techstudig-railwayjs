@@ -20,6 +20,7 @@ action 'new', ->
   render()
 
 action 'create', ->
+  uploadPhoto()
   User.create body.User, (err, user) =>
     if err
       flash 'error', 'User can not be created'
