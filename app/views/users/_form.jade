@@ -1,10 +1,14 @@
 != errorMessagesFor(user)
 .control-group
-  label.control-label(for='inputUserName') Name
+  label.control-label(for='inputUserName')
+    |Name
+    i.icon-ok
   .controls
     input#inputUserName(value=user.name,name='User[name]',type='text',placeholder='User Name')
 .control-group
-  label.control-label(for='inputUserPassword') Password
+  label.control-label(for='inputUserPassword')
+    |Password
+    i.icon-ok
   .controls
     input#inputUserPassword(value=user.password,name='User[password]',type='password', placeholder='Password')
 .control-group

@@ -2,7 +2,7 @@ User = define 'User', ->
   property 'name', String, index: true
   property 'password', String
   property 'createdAt', Date, default: Date()
-  property 'image', String
+  property 'image', String, default: "/images/no_user.jpeg"
   property 'star', Number, default: 10
   property 'type', Number, default: 1
   property 'profile', Text
