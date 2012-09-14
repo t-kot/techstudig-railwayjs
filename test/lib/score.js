@@ -77,6 +77,18 @@ exports['calculateRanking'] = {
     'game1ではuser2はmode2のときスターを3獲得すること': function(test){
         test.equal(scores.calculateStar({gameId:"game1",userId:"user2",connect:3,gameMode:2}), 3);
         test.done();
+    },
+    'game2ではuser1はmode2のときスターを3失うこと': function(test){
+        test.equal(scores.calculateStar({gameId:"game2",userId:"user1",connect:3,gameMode:2}), -3);
+        test.done();
+    },
+    'game3ではuser1はmode1のときスターを1獲得すること': function(test){
+        test.equal(scores.calculateStar({gameId:"game3",userId:"user1",connect:3,gameMode:1}), 1);
+        test.done();
+    },
+    'game3ではuser2はmode2のときスターを3獲得すること': function(test){
+        test.equal(scores.calculateStar({gameId:"game3",userId:"user1",connect:3,gameMode:2}), 3);
+        test.done();
     }
 };
 

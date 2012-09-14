@@ -1,2 +1,62 @@
-.page-header
+.page-header.hidden-phone
   h1 Welcome
+
+.span9
+  #myCarousel1.carousel.slide.hidden-phone
+    .carousel-inner
+      .item.active
+        img(src='/images/carousel01.png')
+        .carousel-caption
+          h4 新規登録
+          p
+            ユーザ名、パスワード、ユーザ画像、プロフィールを入力してスタート!
+      .item
+        img(src='/images/carousel02.png')
+        .carousel-caption
+          h4 ゲーム一覧
+          p
+            サインインすると現在ホストされているゲーム一覧を見ることができます。
+            接続しているユーザはこれらのゲームごとに区別され、Jackpotや同時接続数、ゲームの内容が異なります。
+      .item
+        img(src='/images/carousel03.png')
+        .carousel-caption
+          h4 ゲーム作成
+          p
+            すでに開設されているゲームに参加することはもちろん、自分で好きなようにゲームを作ることができます。
+            ユーザが指定できるのはルーム名のタイトル、ゲームの種類、やり取りされる星の賭け率などです。
+      .item
+        img(src='/images/carousel04.png')
+        .carousel-caption
+          h4 ゲームをプレイ
+          p
+            |PCで見た場合
+    a.carousel-control.left(href='#myCarousel1',data-slide='prev')&lsaquo;
+    a.carousel-control.right(href='#myCarousel1',data-slide='next')&rsaquo;
+  #myCarousel2.carousel.slide.visible-phone
+    .carousel-inner
+      .item.active
+        img(src='/images/carousel05.png')
+        .carousel-caption
+          h4 新規登録
+          p
+            ユーザ名、パスワード、ユーザ画像、プロフィールを入力してスタート!
+      .item
+        img(src='/images/carousel06.png')
+        .carousel-caption
+          h4 ゲーム一覧
+          p
+            ゲームごとにちょっと違うよ!
+      .item
+        img(src='/images/carousel07.png')
+        .carousel-caption
+          h4 ゲーム作成
+          p
+            新しくゲームルームを作ろう!
+      .item
+        img(src='/images/carousel08.png')
+        .carousel-caption
+          h4 プロフィール
+          p プロフィールを充実させよう!
+    a.carousel-control.left(href='#myCarousel2',data-slide='prev')&lsaquo;
+    a.carousel-control.right(href='#myCarousel2',data-slide='next')&rsaquo;
+.clearfix

@@ -24,9 +24,14 @@ function ValidUserAttributes (){
 
 exports['games controller'] = {
     setUp: function (callback){
+        this.userfind = User.find;
         User.find = sinon.spy(function (id, callback){
             callback(null, new ValidUserAttributes);
         });
+        callback();
+    },
+    tearDown: function(callback){
+        User.find = this.userfind;
         callback();
     },
 

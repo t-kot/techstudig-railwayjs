@@ -8,17 +8,45 @@
             "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
         },
         "user2":{
-            "name": "fukuda",
+            "name": "miki",
             "password": "takeo",
             "star": 10,
             "type": 2,
             "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
         },
         "user3":{
-            "name": "oohira",
-            "password": "masayoshi",
+            "name": "fukuda",
+            "password": "takeo",
             "star": 10,
             "type": 2,
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
+        },
+        "user4":{
+            "name": "oohira",
+            "password": "masayoshi",
+            "star": 30,
+            "type": 1,
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
+        },
+        "user5":{
+            "name": "suzuki",
+            "password": "zenkou",
+            "star": 30,
+            "type": 1,
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
+        },
+        "user6":{
+            "name": "nakasone",
+            "password": "yasuhiro",
+            "star": 15,
+            "type": 1,
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
+        },
+        "user7":{
+            "name": "takeshita",
+            "password": "noboru",
+            "star": 15,
+            "type": 1,
             "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
         }
     },
@@ -26,25 +54,49 @@
         "game1":{
             "ownerId": 1,
             "ownerName": "tanaka",
-            "title": "title1",
-            "type": 2,
+            "title": "Game1",
+            "type": 1,
             "mode": 1,
             "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
         },
         "game2":{
             "ownerId": 2,
             "ownerName": "fukuda",
-            "title": "title2",
+            "title": "Game2 まったり",
             "type": 2,
-            "mode": 2,
+            "mode": 1,
             "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
         },
         "game3":{
             "ownerId": 2,
             "ownerName": "fukuda",
             "title": "title3",
-            "type": 1,
+            "type": 2,
+            "mode": 3,
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
+        },
+        "game4":{
+            "ownerId": 1,
+            "ownerName": "tanaka",
+            "title": "title4",
+            "type": 2,
             "mode": 2,
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
+        },
+        "game5":{
+            "ownerId": 1,
+            "ownerName": "tanaka",
+            "title": "title5",
+            "type": 3,
+            "mode": 2,
+            "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
+        },
+        "game6":{
+            "ownerId": 1,
+            "ownerName": "tanaka",
+            "title": "title6",
+            "type": 4,
+            "mode": 1,
             "createdAt":"Wed Sep 12 2012 23:50:53 GMT+0900 (JST)"
         }
     }

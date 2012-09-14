@@ -3,18 +3,18 @@ html
   head
     title= title
     meta(name='viewport', content='width=device-width,initial-scale=1.0')
-    != javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', 'bootstrap', 'rails', 'jquery.cookie','application')
-    != stylesheet_link_tag('bootstrap', 'style', 'bootstrap-responsive')
+    != javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', 'bootstrap.min', 'rails', 'jquery.cookie','application')
+    != stylesheet_link_tag('bootstrap.min', 'style', 'bootstrap-responsive.min')
     != csrf_meta_tag()
   body
-    .navbar.navbar-inverse
+    .navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
         .container
-          a.brand(href="/") TechStuDIG
           a.btn.btn-navbar(data-toggle='collapse',data-target=".nav-collapse")
             span.icon-bar
             span.icon-bar
             span.icon-bar
+          a.brand(href="/") TechStuDIG
           .nav-collapse
             ul.nav
               - if (current_user) {
@@ -26,14 +26,14 @@ html
                       != link_to("Create Game Room",path_to.new_game())
                     li
                       != link_to("Game Room",path_to.games())
-                li.dropdown
-                  a.dropdown-toggle(data-toggle="dropdown") Chat
-                    b.caret
-                  ul.dropdown-menu(role='menu',aria-labelledby='drop1')
-                    li
-                      != link_to("Create Chat Room",path_to.new_room())
-                    li
-                      != link_to("Chat Rooms",path_to.rooms())
+                //li.dropdown
+                //  a.dropdown-toggle(data-toggle="dropdown") Chat
+                //    b.caret
+                //  ul.dropdown-menu(role='menu',aria-labelledby='drop1')
+                //    li
+                //      != link_to("Create Chat Room",path_to.new_room())
+                //    li
+                //      != link_to("Chat Rooms",path_to.rooms())
 
                 li.dropdown
                   a.dropdown-toggle(data-toggle="dropdown")= current_user.name
@@ -51,6 +51,7 @@ html
                 li
                   != link_to("Sign Up",path_to.new_user())
               - }
+    header.visible-desktop.jumbotron.subhead#overview(style='height:50px')
     .container
       - var flash = request.flash('info').pop(); if (flash) {
         .alert.alert-success
@@ -60,7 +61,7 @@ html
 
       - flash = request.flash('error').pop(); if (flash) {
         .alert.alert-error
-          a.close(data-dismiss="alert") x
+          a.close(data-dismiss='alert') x
           = flash
       - }
 
