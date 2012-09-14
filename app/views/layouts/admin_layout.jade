@@ -7,14 +7,14 @@ html
     != javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', 'bootstrap.min', 'rails', 'jquery.cookie','application')
     != csrf_meta_tag()
   body
-    .navbar.navbar-inverse
+    .navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
         .container
-          a.brand(href="/admin/") TechStuDIG
           a.btn.btn-navbar(data-toggle='collapse',data-target=".nav-collapse")
             span.icon-bar
             span.icon-bar
             span.icon-bar
+          a.brand(href="/admin/") TechStuDIG
           .nav-collapse
             ul.nav
               li.dropdown
@@ -48,6 +48,7 @@ html
                 ul.dropdown-menu(role='menu',aria-labelledby='drop1')
                   li
                     != link_to("Logout",'/logout')
+    header.visible-desktop.jumbotron.subhead#overview(style='height:50px')
     .container
       - var flash = request.flash('info').pop(); if (flash) {
         .alert.alert-success
