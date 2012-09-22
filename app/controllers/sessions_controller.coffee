@@ -7,7 +7,8 @@ action 'new', ->
   render()
 
 action 'create', ->
-  User.authenticate body["user_name"], body["password"],(err,users)=>
+  password = require('../../lib/utility').passwordEncrypt(body["password"])
+  User.authenticate body["user_name"], password,(err,users)=>
     if err
       flash 'error', 'Something went wrong'
       redirect path_to.root()

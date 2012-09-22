@@ -1,3 +1,4 @@
+crypt = require('crypto')
 load 'application'
 before use('checkValidateUser'), {only: ['edit','update','destroy'] }
 
@@ -20,6 +21,7 @@ action 'new', ->
   render()
 
 action 'create', ->
+  body.User.password = require('../../lib/utility').passwordEncrypt(body.User.password)
   uploadPhoto()
   User.create body.User, (err, user) =>
     if err

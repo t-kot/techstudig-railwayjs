@@ -47,7 +47,7 @@ app.io.sockets.on 'connection', (socket)->
         console.log err+"game get error" if err
         scores[gameId][userId].push score
         ranking = scores.calculateRanking gameId,userId
-        if ranking == 1 && utility.rand(0,10) == 0
+        if ranking == 1 && utility.rand(0,10) == 0 && connecting(gameId) > 10
           app.io.sockets.in(gameId).emit "news",{type:Game.newsType["jackpot"],data:{user:user.name,jackpot:jackpot[gameId]}}
           jackpot[gameId] = 100
         socket.get 'gameMode', (err,gameMode)->
